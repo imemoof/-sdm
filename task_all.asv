@@ -95,7 +95,7 @@ clear all;
     
     % intervals
     interval.minimum_itemdisp = 0.5;
-    interval.time_out = 3;
+    interval.time_out = 3;lt
     inverval.feedback = 1;
 %     % Load  and display instructions
 %     Load_instructions;    
