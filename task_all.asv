@@ -1,25 +1,21 @@
 % Rating task for different items
 clear all;       
     number_subjects = input('subject identification number?');
-    practice_or_not = input('Is this a practice session?'); 
-    
+    practice_or_not = input('Is this a practice session?');
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
-    
-    %     if do_rating_task == 1
-    %        rating_rec = input ('will you use keyboard to place a rating?');       % 1 = use keyboard, 0 = use mouse or touch screen
-    %     end
-        rating_rec = 1; % use key board to place a rating
-        response_rec = 0; % use mouse/touch screen to make a choice
-        if do_choice_task == 1
-    %       response_rec = input('Will you use number key pad to make a choice?'); % 1 = use number key pad, 0 = use mouse or touch screen
-            mask_options = input('Do you want to mask choice options?')   % decide whether or not choice options are going to ba masked
-        end
-    elseif prectice_or_not == 1
-        mask_options = input('Do you want to mask choice options?')       
     end
     
+%     if do_rating_task == 1
+%        rating_rec = input ('will you use keyboard to place a rating?');       % 1 = use keyboard, 0 = use mouse or touch screen
+%     end
+    rating_rec = 1; % use key board to place a rating
+    response_rec = 0; % use mouse/touch screen to make a choice
+    if do_choice_task == 1
+%       response_rec = input('Will you use number key pad to make a choice?'); % 1 = use number key pad, 0 = use mouse or touch screen
+        mask_options = input('Do you want to mask choice options?')   % decide whether or not choice options are going to ba masked
+    end
     
     % to judge which computer are we using
     [~, hostname] = system('hostname')
@@ -126,19 +122,17 @@ clear all;
 % Practice Session
 
 
-% Main Task
-    % put session 1- session 5 together
-    % which tasks to do
-        if do_rating_task == 1
-            task_rating
+% which tasks to do
+    if do_rating_task == 1
+        task_rating
+    end
+    if do_choice_task == 1
+        load([resultdir,'pleasantRating_subject_',num2str(number_subjects),'.mat']);
+        if response_rec == 1
+            task_choice_keyboard 
+        elseif response_rec == 0
+            task_choice_mouse
         end
-        if do_choice_task == 1
-            load([resultdir,'pleasantRating_subject_',num2str(number_subjects),'.mat']);
-            if response_rec == 1
-                task_choice_keyboard 
-            elseif response_rec == 0
-                task_choice_mouse
-            end
-        end
+    end
     
     sca
