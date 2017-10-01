@@ -188,4 +188,3 @@ while k <= trials_perCate;
 
 end
 
-sca
