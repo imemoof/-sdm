@@ -50,6 +50,7 @@
         sca
         % pleasData=[[1:i];n(1:i);itemOnset;cursorFinal].';  
         resultname = ['pleasantRating_subject_',num2str(number_subjects),'cat_',num2str(category_number)];
+        cd(resultdir)
         save(resultname,'ratingItem','n');
 
 %         Screen('TextSize', window, displayConfig.text.smallfont);
