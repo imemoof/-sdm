@@ -1,5 +1,10 @@
-
-% start_rating
+    Screen('DrawTexture',window, Main_Rating,[],Main_Rating_rect);
+    Screen(window,'Flip');
+    WaitSecs(task_instruction_duration)
+    keyIsDown = 0;
+    while keyIsDown == 0
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+    end
     
     n = randperm(item_perCate);
     itemOnset = [];
@@ -20,7 +25,7 @@
             onsetE.cross_end{i} = GetSecs;
                         
             
-            ItemImage = imread([displayConfig.imageLocation, 'cate1\cate1', '_', num2str(n(i)),'.jpeg']);
+            ItemImage = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(n(i)),'.jpeg']);
             [s1, s2, s3] = size(ItemImage);    
             ItemTexture = Screen('MakeTexture', window, ItemImage);
             positionItem = [displayConfig.xCenter-s2/2, displayConfig.yCenter - s1/2- items_y_up, displayConfig.xCenter+s2/2, displayConfig.yCenter + s1/2 - items_y_up];           
@@ -44,7 +49,7 @@
         
         sca
         % pleasData=[[1:i];n(1:i);itemOnset;cursorFinal].';  
-        resultname = ['pleasantRating_subject_',num2str(number_subjects)];
+        resultname = ['pleasantRating_subject_',num2str(number_subjects),'cat_',num2str(category_number)];
         save(resultname,'ratingItem','n');
 
 %         Screen('TextSize', window, displayConfig.text.smallfont);

@@ -2,7 +2,8 @@
 clear all;       
     number_subjects = input('subject identification number?');
     practice_or_not = input('Is this a practice session?'); 
-    
+    category_number = 1;
+
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
@@ -19,7 +20,6 @@ clear all;
     elseif prectice_or_not == 1
         mask_options = input('Do you want to mask choice options?')       
     end
-    
     
     % to judge which computer are we using
     [~, hostname] = system('hostname')
@@ -133,7 +133,7 @@ clear all;
             task_rating
         end
         if do_choice_task == 1
-            load([resultdir,'pleasantRating_subject_',num2str(number_subjects),'.mat']);
+            load([resultdir,'pleasantRating_subject_',num2str(number_subjects),'cat_',num2str(category_number),'.mat']);
             if response_rec == 1
                 task_choice_keyboard 
             elseif response_rec == 0
