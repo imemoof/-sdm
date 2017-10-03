@@ -50,8 +50,19 @@ while k <= trials_perCate;
             ItemImage{n} = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number),'_', num2str(items_whichones(n)),'.jpeg']);
             [s1, s2, s3] = size(ItemImage{n});    
             ItemTexture = Screen('MakeTexture', window, ItemImage{n});
-            positionItem = positions_item(:,n)';        
-            Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);
+            positionItem = positions_item(:,n)'; 
+           
+            if s1 <s2
+                correct_picrec = [0,37,0,-37];
+                positionItem = positionItem + correct_picrec;
+            elseif s1>s2
+                correct_picrec = [37,0,-37,0];
+                positionItem = positionItem + correct_picrec;
+            else
+                correct_picrec = [0, 0, 0, 0];
+            end
+                    
+            Screen('DrawTexture', window, ItemTexture, [], positionItem , 0);
             Screen('Flip', window);
 
         elseif n >1
@@ -61,7 +72,8 @@ while k <= trials_perCate;
             ItemImage{n} = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(n)),'.jpeg']);
             [s1, s2, s3] = size(ItemImage{n});    
             ItemTexture = Screen('MakeTexture', window, ItemImage{n});
-            positionItem = positions_item(:,n)';        
+            positionItem = positions_item(:,n)'; 
+            positionItem = positionItem + correct_picrec;
             Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);           
             
             % filled rectange of the previous locations
@@ -93,10 +105,12 @@ while k <= trials_perCate;
    % locations,click the mouse to choose from.
             if mask_options == 0
                 if  n == trials.itemNumber{k}
-                    DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter*2 - 100, [255 255 255], [], [], [], [], []);
+                    Screen('TextSize', window, displayConfig.text.bigfont);
+                    DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
                     Screen('Flip', window);
                     WaitSecs(1)
                     
+                    positions_item = positions_item + correct_picrec';
                     Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)             
                     ItemTexture1 = Screen('MakeTexture', window, ItemImage{1});
                     Screen('DrawTexture', window, ItemTexture1, [], positions_item(:,1), 0);
@@ -177,15 +191,17 @@ while k <= trials_perCate;
     
         % photo
         if too_slow == 1
+            Screen('TextSize', window, displayConfig.text.bigfont);
             DrawFormattedText(window, 'Too slow!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
         else
             if findposition <7
                 ItemImage = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(findposition)),'.jpeg']);
                 ItemTexture = Screen('MakeTexture', window, ItemImage);
                 positionItem = positions_item(:,findposition)'; 
-                Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]], rect_linewidth) %light purple
+                Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]] - correct_picrec, rect_linewidth) %light purple
                 Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);      
             elseif findposition == 1000
+                Screen('TextSize', window, displayConfig.text.bigfont);
                 DrawFormattedText(window, 'Wrong click!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
             end
         end

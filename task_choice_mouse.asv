@@ -8,7 +8,7 @@ while keyIsDown == 0
 end
 
 rect_width = 300;
-rect_hight = 225;
+rect_hight = 300;
 
 k = 1;
 stoptask = 0;
@@ -25,14 +25,14 @@ while k <= trials_perCate;
     WaitSecs(jitter_cross);
    
 % 6 position on the screen
-    horizental_gap = (L - 300*3)/4;
-    vertical_gap = (H - 225*2)/3;
-    rect_pos(:,1) = [horizental_gap ;vertical_gap; horizental_gap + rect_width; vertical_gap + 225];
-    rect_pos(:,2) = [2*horizental_gap + 300; vertical_gap; 2*horizental_gap + 600; vertical_gap + 225];
-    rect_pos(:,3) = [3*horizental_gap + 600; vertical_gap ;3*horizental_gap + 900; vertical_gap + 225];
-    rect_pos(:,4) = [horizental_gap ; 2*vertical_gap + 225 ; horizental_gap + 300; 2*vertical_gap + 450];
-    rect_pos(:,5) = [2*horizental_gap + 300; 2*vertical_gap + 225; 2*horizental_gap + 600; 2*vertical_gap + 450];
-    rect_pos(:,6) = [3*horizental_gap + 600;2*vertical_gap + 225; 3*horizental_gap + 900; 2*vertical_gap + 450];
+    horizental_gap = (L - rect_hight*3)/4;
+    vertical_gap = (H - rect_hight*2)/3;
+    rect_pos(:,1) = [horizental_gap ;vertical_gap; horizental_gap + rect_width; vertical_gap + rect_hight];
+    rect_pos(:,2) = [2*horizental_gap + rect_width; vertical_gap; 2*horizental_gap + rect_width*2; vertical_gap + rect_hight];
+    rect_pos(:,3) = [3*horizental_gap + rect_width*2; vertical_gap ;3*horizental_gap + rect_width*3; vertical_gap + rect_hight];
+    rect_pos(:,4) = [horizental_gap ; 2*vertical_gap + rect_hight; horizental_gap + rect_width; 2*vertical_gap + rect_hight*2];
+    rect_pos(:,5) = [2*horizental_gap + rect_width; 2*vertical_gap + rect_hight; 2*horizental_gap + rect_width*2; 2*vertical_gap + rect_hight*2];
+    rect_pos(:,6) = [3*horizental_gap + rect_width*2;2*vertical_gap + rect_hight; 3*horizental_gap + rect_width*3; 2*vertical_gap + rect_hight*2];
     
     rect_line = ones(4,6)*rect_linegap.*[-1;-1;1;1];  % leave a 5 pixel border
     % first item appear, random location of the 6, click space to
@@ -47,25 +47,35 @@ while k <= trials_perCate;
             % rectangles
             Screen('FrameRect',window, color.frame,[rect_pos + rect_line],rect_linewidth) %light purple
             % photo
-            ItemImage{n} = imread([displayConfig.imageLocation, 'cate1\cate1', '_', num2str(items_whichones(n)),'.jpeg']);
+            ItemImage{n} = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number),'_', num2str(items_whichones(n)),'.jpeg']);
             [s1, s2, s3] = size(ItemImage{n});    
             ItemTexture = Screen('MakeTexture', window, ItemImage{n});
-            positionItem = positions_item(:,n)';        
-            Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);
+            positionItem = positions_item(:,n)'; 
+           
+            if s1 <s2
+                correct_picrec = [0,37,0,-37];
+                positionItem = positionItem + correct_picrec;
+            elseif s1>s2
+                correct_picrec = [37,0,-37,0];
+                positionItem = positionItem + correct_picrec;
+            end
+                    
+            Screen('DrawTexture', window, ItemTexture, [], positionItem , 0);
             Screen('Flip', window);
 
         elseif n >1
             % rectangles
             Screen('FrameRect',window, color.frame,[rect_pos + rect_line],rect_linewidth) %light purple
             % photo
-            ItemImage{n} = imread([displayConfig.imageLocation, 'cate1\cate1', '_', num2str(items_whichones(n)),'.jpeg']);
+            ItemImage{n} = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(n)),'.jpeg']);
             [s1, s2, s3] = size(ItemImage{n});    
             ItemTexture = Screen('MakeTexture', window, ItemImage{n});
-            positionItem = positions_item(:,n)';        
+            positionItem = positions_item(:,n)'; 
+            positionItem = positionItem + correct_picrec;
             Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);           
             
             % filled rectange of the previous locations
-            Screen('FillRect',window, color.frame,[positions_item(:,1:(n-1))])
+            %Screen('FillRect',window, color.frame,[positions_item(:,1:(n-1))])
             Screen('Flip', window);
         end
         
@@ -75,11 +85,11 @@ while k <= trials_perCate;
             while true
                 [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
                 if keyIsDown == 1
-                        if response_rec == 1 % use keyboard to make a response 
-                            if find(keyCode == 1) == 101; break;  end; % if key is pressed and the pressed key is 5 on the numeric keyboard
-                        elseif response_rec == 0  % use mouse to make a response, press space key to continue
+%                         if response_rec == 1 % use keyboard to make a response 
+%                             if find(keyCode == 1) == 101; break;  end; % if key is pressed and the pressed key is 5 on the numeric keyboard
+%                         elseif response_rec == 0  % use mouse to make a response, press space key to continue
                             if find(keyCode == 1) == key.space; break; end;
-                        end      
+%                         end      
                 end                
             end
             
@@ -87,11 +97,17 @@ while k <= trials_perCate;
                 stoptask = 1;
             end
 
+
             
    % after the last item has appeard, turn the color of the previous
    % locations,click the mouse to choose from.
             if mask_options == 0
                 if  n == trials.itemNumber{k}
+                    Screen('TextSize',w, 24);
+                    DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
+                    Screen('Flip', window);
+                    WaitSecs(1)
+                    positions_item = positions_item + correct_picrec';
                     Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)             
                     ItemTexture1 = Screen('MakeTexture', window, ItemImage{1});
                     Screen('DrawTexture', window, ItemTexture1, [], positions_item(:,1), 0);
@@ -172,15 +188,18 @@ while k <= trials_perCate;
     
         % photo
         if too_slow == 1
+            Screen('TextSize',w, 24);
             DrawFormattedText(window, 'Too slow!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
         else
             if findposition <7
-                ItemImage = imread([displayConfig.imageLocation, 'cate1\cate1', '_', num2str(items_whichones(findposition)),'.jpeg']);
+                ItemImage = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(findposition)),'.jpeg']);
                 ItemTexture = Screen('MakeTexture', window, ItemImage);
                 positionItem = positions_item(:,findposition)'; 
                 Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]], rect_linewidth) %light purple
                 Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);      
             elseif findposition == 1000
+                Screen('TextSize',w, 24);
+
                 DrawFormattedText(window, 'Wrong click!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
             end
         end

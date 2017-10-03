@@ -2,7 +2,7 @@
 clear all;       
     number_subjects = input('subject identification number?');
     practice_or_not = input('Is this a practice session?'); 
-    category_number = input('which categories? 1. fruits and vegitables, 2. snacks, 3. CD, 4. readings, 5.films');
+    category_number = 1;
 
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
@@ -55,7 +55,7 @@ clear all;
     
     displayConfig.text.smallfont = 18;
     displayConfig.text.mediumfont = 20;  
-    displayConfig.text.bigfont  = 24;   
+displayConfig.text.bigfont    
     Screen('TextSize', window, displayConfig.text.mediumfont);
 %    Font_Type = 'garamond';
 %    Screen('TextFont', window, Font_Type);
