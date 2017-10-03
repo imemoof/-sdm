@@ -2,11 +2,11 @@
 clear all;       
     number_subjects = input('subject identification number?');
     practice_or_not = input('Is this a practice session?'); 
-    category_number = input('which categories? 1. fruits and vegitables, 2. snacks, 3. CD, 4. readings, 5.films');
 
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
+        category_number = input('which categories? 1. fruits and vegitables, 2. snacks, 3. CD, 4. readings, 5.films');
     
     %     if do_rating_task == 1
     %        rating_rec = input ('will you use keyboard to place a rating?');       % 1 = use keyboard, 0 = use mouse or touch screen
@@ -17,7 +17,7 @@ clear all;
     %       response_rec = input('Will you use number key pad to make a choice?'); % 1 = use number key pad, 0 = use mouse or touch screen
             mask_options = input('Do you want to mask choice options?')   % decide whether or not choice options are going to ba masked
         end
-    elseif prectice_or_not == 1
+    elseif practice_or_not == 1
         mask_options = input('Do you want to mask choice options?')       
     end
     
@@ -125,8 +125,9 @@ clear all;
 
 
 % Practice Session
-
-
+    if practice_or_not == 1
+        task_practice
+    elseif practice_or_not == 0;    
 % Main Task
     % put session 1- session 5 together
     % which tasks to do
@@ -141,5 +142,6 @@ clear all;
                 task_choice_mouse
             end
         end
+    end
     
     sca
