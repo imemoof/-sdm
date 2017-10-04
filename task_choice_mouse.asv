@@ -53,10 +53,10 @@ while k <= trials_perCate;
             positionItem = positions_item(:,n)'; 
            
             if s1 <s2
-                correct_picrec = [0,(rect_width - s1)/2,0, (rect_width - s1)/2*(-1)];
+                correct_picrec = [0,(vertical_gap - s1)/2,0, (vertical_gap - s1)/2*(-1)];
                 positionItem = positionItem + correct_picrec;
             elseif s1>s2
-                correct_picrec = [(rect_hight - s2)/2,0,(rect_hight - s2)/2*(-1),0];
+                correct_picrec = [(horizental_gap - s2)/2,0,(horizental_gap - s2)/2*(-1),0];
                 positionItem = positionItem + correct_picrec;
             else
                 correct_picrec = [0, 0, 0, 0];
@@ -77,8 +77,7 @@ while k <= trials_perCate;
             Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);           
             
             % filled rectange of the previous locations
-            if mask_options == 1
-            end
+            %Screen('FillRect',window, color.frame,[positions_item(:,1:(n-1))])
             Screen('Flip', window);
         end
         
@@ -88,7 +87,11 @@ while k <= trials_perCate;
             while true
                 [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
                 if keyIsDown == 1
-                    if find(keyCode == 1) == key.space; break; end;
+%                         if response_rec == 1 % use keyboard to make a response 
+%                             if find(keyCode == 1) == 101; break;  end; % if key is pressed and the pressed key is 5 on the numeric keyboard
+%                         elseif response_rec == 0  % use mouse to make a response, press space key to continue
+                            if find(keyCode == 1) == key.space; break; end;
+%                         end      
                 end                
             end
             
@@ -132,15 +135,18 @@ while k <= trials_perCate;
             
             elseif mask_options == 1            
                if n == trials.itemNumber{k}
-                    Screen('TextSize', window, displayConfig.text.bigfont);
-                    DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
-                    Screen('Flip', window);
-                    WaitSecs(1)
-                    
-                    Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
-                    Screen('FillRect',window, color.ready,[positions_item(:,1:n)])
-                    Screen('Flip', window);
-                    
+                        % filled rectanges of all the the previous locations
+                        question_mark = imread([displayConfig.imageLocation, 'question_mark.png']);
+                        [q1, q2, q3] = size(question_mark);    
+                        question_mark_texture = Screen('MakeTexture', window, question_mark);
+                        correct_question = [0,(vertical_gap - s1)/2,0, (vertical_gap - s1)/2*(-1)];
+                        Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
+                        Screen('FillRect',window, color.ready,[positions_item(:,1:n)])
+                        for k = 1:n
+                            Screen('DrawTexture', window, question_mark_texture, [], positions_item(:,k) - correct_question, 0); 
+                        end
+
+                        Screen('Flip', window);
                end
             end
             
@@ -171,14 +177,14 @@ while k <= trials_perCate;
         choice_x = choice_x - 1920;  % a weird screen coordination system
     end
 
-    %    Then feed back phase, the chosen item appear in the red square
-        findposition = 1000;
-        for x = 1: trials.itemNumber{k}
-            option_position = positions_item(:,x);
-            if choice_x >= option_position(1) && choice_x <= option_position(3) && choice_y >= option_position(2) && choice_y <= option_position(4)
-                findposition = x;
-            end
+%    Then feed back phase, the chosen item appear in the red square
+    findposition = 1000;
+    for x = 1: trials.itemNumber{k}
+        option_position = positions_item(:,x);
+        if choice_x >= option_position(1) && choice_x <= option_position(3) && choice_y >= option_position(2) && choice_y <= option_position(4)
+            findposition = x;
         end
+    end
     
         % photo
         if too_slow == 1
@@ -189,8 +195,8 @@ while k <= trials_perCate;
                 ItemImage = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(findposition)),'.jpeg']);
                 ItemTexture = Screen('MakeTexture', window, ItemImage);
                 positionItem = positions_item(:,findposition)'; 
-                Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]], rect_linewidth) %light purple
-                Screen('DrawTexture', window, ItemTexture, [], positionItem + correct_picrec, 0);      
+                Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]] - correct_picrec, rect_linewidth) %light purple
+                Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);      
             elseif findposition == 1000
                 Screen('TextSize', window, displayConfig.text.bigfont);
                 DrawFormattedText(window, 'Wrong click!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
@@ -214,7 +220,7 @@ while k <= trials_perCate;
         cursorFinal(k) = -100;
     end
     
-    k = k + 1;
+    k = k+1;
 end
 sca
 % proceed to the next trial
