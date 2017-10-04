@@ -1,11 +1,22 @@
 % Use the mouse to make a click response
-Screen('DrawTexture',window, Main_Choice,[],Main_Choice_rect);
-Screen(window,'Flip');
-WaitSecs(task_instruction_duration)
-keyIsDown = 0;
-while keyIsDown == 0
-    [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+if mask_options == 0 
+    Screen('DrawTexture',window, Main_Choice,[],Main_Choice_rect);
+    Screen(window,'Flip');
+    WaitSecs(task_instruction_duration)
+    keyIsDown = 0;
+    while keyIsDown == 0
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+    end
+elseif mask_options == 1
+   Screen('DrawTexture',window, Main_Choice_Mask,[],Main_Choice_Mask_rect);
+    Screen(window,'Flip');
+    WaitSecs(task_instruction_duration)
+    keyIsDown = 0;
+    while keyIsDown == 0
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+    end 
 end
+
 
 rect_width = 300;
 rect_hight = 300;

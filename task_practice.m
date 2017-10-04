@@ -47,12 +47,23 @@ while keyIsDown == 0
     [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
 end
 
-Screen('DrawTexture',window, Training_Choice2,[],Training_Choice2_rect);
-Screen(window,'Flip');
-WaitSecs(task_instruction_duration)
-keyIsDown = 0;
-while keyIsDown == 0
-    [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+if mask_options == 0
+    Screen('DrawTexture',window, Training_Choice2,[],Training_Choice2_rect);
+    Screen(window,'Flip');
+    WaitSecs(task_instruction_duration)
+    keyIsDown = 0;
+    while keyIsDown == 0
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+    end
+elseif mask_options == 1
+    Screen('DrawTexture',window, Training_Choice2_Mask,[],Training_Choice2_Mask_rect);
+    Screen(window,'Flip');
+    WaitSecs(task_instruction_duration)
+    keyIsDown = 0;
+    while keyIsDown == 0
+        [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+    end
+    
 end
 
     Screen('TextSize', window, displayConfig.text.bigfont);
@@ -66,7 +77,7 @@ end
     end
 % consequences
 
-Screen('DrawTexture',window, Training_Consequence1,[],Training_Consequence1_rect);
+Screen('DrawTexture',window, Training_Consequence,[],Training_Consequence_rect);
 Screen(window,'Flip');
 WaitSecs(task_instruction_duration)
 keyIsDown = 0;
@@ -75,10 +86,10 @@ while keyIsDown == 0
 end
 
 
-Screen('DrawTexture',window, Training_Consequence2,[],Training_Consequence2_rect);
-Screen(window,'Flip');
-WaitSecs(task_instruction_duration)
-keyIsDown = 0;
-while keyIsDown == 0
-    [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
-end
+% Screen('DrawTexture',window, Training_Consequence2,[],Training_Consequence2_rect);
+% Screen(window,'Flip');
+% WaitSecs(task_instruction_duration)
+% keyIsDown = 0;
+% while keyIsDown == 0
+%     [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+% end

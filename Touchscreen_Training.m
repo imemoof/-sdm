@@ -33,6 +33,7 @@ end
 total_touch = 10;
 cross_stay = 2;  % fixation cross presented on the screen for two seconds
 task_instruction_duration = 3;
+touch_timeout = 1.5;
 % Get the screen numbers
 screens = Screen('Screens');
 screenNumber = max(screens);
@@ -111,14 +112,14 @@ while passornot == 0
         %result
         % display the rectangle in green color if click inside. red otherwise
         color = [255 0 0];
-        if responseTime <= 1 && IsInRect(xClick, yClick, rect)  
+        if responseTime <= touch_timeout && IsInRect(xClick, yClick, rect)  
             color = [0 255 0];
         end
         Screen('FillRect', window,0); % clear screen
         Screen('Framerect', window, color, rect, 5 ); %display a small rectangle at center
 
 
-        if responseTime <= 1 && IsInRect(xClick, yClick, rect)
+        if responseTime <= touch_timeout && IsInRect(xClick, yClick, rect)
             success_trials = success_trials + 1;
         end
         %display reaction time

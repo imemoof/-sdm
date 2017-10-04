@@ -34,9 +34,7 @@ cd(instruction_dir)
     Training_Choice1_rect =  CenterRectOnPoint(Screen('Rect',Training_Choice1)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
     Training_Choice2 = Screen('MakeTexture',window,imread('training_choice2.png'));
     Training_Choice2_rect =  CenterRectOnPoint(Screen('Rect',Training_Choice2)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
-    Training_Choice2_Mask = Screen('MakeTexture',window,imread('training_choice2_mask.png'));
-    Training_Choice2_Mask_rect =  CenterRectOnPoint(Screen('Rect',Training_Choice2_Mask)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
-    
+
 %     Training_Consequence1 = Screen('MakeTexture',window,imread('training_consequence1.png'));
 %     Training_Consequence1_rect =  CenterRectOnPoint(Screen('Rect',Training_Consequence1)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
 %     Training_Consequence2 = Screen('MakeTexture',window,imread('training_consequence2.png'));
@@ -49,7 +47,7 @@ cd(instruction_dir)
     Main_Rating_rect =  CenterRectOnPoint(Screen('Rect',Main_Rating)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
     Main_Choice = Screen('MakeTexture',window,imread('main_choice.png'));
     Main_Choice_rect =  CenterRectOnPoint(Screen('Rect',Main_Choice)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
-    Main_Choice_Mask = Screen('MakeTexture',window,imread('main_choice_mask.png'));
-    Main_Choice_Mask_rect =  CenterRectOnPoint(Screen('Rect',Main_Choice_Mask)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
+    Main_Choice = Screen('MakeTexture',window,imread('main_choice.png'));
+    Main_Choice_rect =  CenterRectOnPoint(Screen('Rect',Main_Choice)* streching_coeff , displayConfig.xCenter, displayConfig.yCenter);    
     
     cd(root)
