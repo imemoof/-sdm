@@ -78,6 +78,7 @@ while k <= trials_perCate;
             
             % filled rectange of the previous locations
             if mask_options == 1
+                Screen('FillRect',window, color.frame,[positions_item(:,1:(n-1))])
             end
             Screen('Flip', window);
         end
@@ -137,10 +138,19 @@ while k <= trials_perCate;
                     Screen('Flip', window);
                     WaitSecs(1)
                     
-                    Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
-                    Screen('FillRect',window, color.ready,[positions_item(:,1:n)])
-                    Screen('Flip', window);
-                    
+                        Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
+                        % Screen('FillRect',window, color.ready,[positions_item(:,1:n)])
+                        
+                        % filled rectanges of all the the previous locations
+                        question_mark = imread([displayConfig.imageLocation, 'question_mark.jpeg']);
+                        question_mark_texture = Screen('MakeTexture', window, question_mark);
+
+                        for z = 1:n
+                            Screen('DrawTexture', window, question_mark_texture, [], positions_item(:,z), 0); 
+                        end
+                        
+
+                        Screen('Flip', window);
                end
             end
             
