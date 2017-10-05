@@ -1,18 +1,22 @@
 % Rating task for different items
-    clear all;       
+    clear all;  
+    rand('state',sum(100*clock));
+
     number_subjects = input('subject identification number?');
     practice_or_not = input('Is this a practice session?'); 
-    total_categories = [1:5];
-    category_order = total_categories(randperm(length(total_categories)));
-    repeat_per_category = 4;
+
     
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
-    
+        total_categories = [1:5];
+        category_order = total_categories(randperm(length(total_categories)));
+        repeat_per_category = 4;
+        betweenCat_pause = 180;
     %     if do_rating_task == 1
     %        rating_rec = input ('will you use keyboard to place a rating?');       % 1 = use keyboard, 0 = use mouse or touch screen
     %     end
+    
         rating_rec = 1; % use key board to place a rating
         response_rec = 0; % use mouse/touch screen to make a choice
         if do_choice_task == 1
@@ -22,6 +26,10 @@
         
     elseif practice_or_not == 1
         mask_options = input('Do you want to mask choice options?')
+        %total_categories = [0];
+        %category_order = total_categories(randperm(length(total_categories)));
+        repeat_per_category = 4;
+        %betweenCat_pause = 180;
         
     end
     
@@ -95,13 +103,17 @@
    
     % reset random generator
     rand('state',sum(100*clock));
-    
-    %------- trial configuaration
-    item_perCate = 86;
-    total_cate = 10;
     FoodorConf = 1;  % 0 = confidence rating, 1= food rating.
     items_y_up = 150 % move the food item up from the center to place scales underneath
-    trials_perCate = 18;
+    
+    %------- trial configuaration
+    if practice_or_not == 0
+        item_perCate = 86;
+        trials_perCate = 18;
+    elseif practice_or_not == 1
+        item_perCate = 18;
+        trials_perCate = 4;
+    end
     
     rect_linewidth = 3;
     rect_linegap = 3;
@@ -113,6 +125,7 @@
     interval.minimum_itemdisp = 0.5;
     interval.time_out = 5;
     inverval.feedback = 1;
+    interval.jitter_cross = 2;
 
 
 % Display instructions
@@ -133,13 +146,15 @@
 
 % Practice Session
     if practice_or_not == 1
+        category_number = 0;
         task_practice
+
     elseif practice_or_not == 0;    
 % Main Task
         % put session 1- session 5 together
         % which tasks to do
         
-        for y = [1:5];
+        for y = [1:length(total_categories)];
             category_number = category_order(y);
     
             if do_rating_task == 1
@@ -150,9 +165,21 @@
     %             if response_rec == 1
     %                 task_choice_keyboard 
     %             elseif response_rec == 0
-                       task_choice_mouse
+                 task_choice_mouse
     %             end
             end
+            
+            Screen('TextSize', window, displayConfig.text.bigfont);
+            DrawFormattedText(window, 'Faites une pause de 3 minutes', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
+            Screen('Flip', window);
+            WaitSecs(betweenCat_pause)
+            DrawFormattedText(window, 'Appuyer sur une touche pour continuer', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
+            Screen('Flip', window);
+            keyIsDown = 0;
+            while keyIsDown == 0
+                [keyIsDown, secs, keyCode, deltaSecs] = KbCheck(-1);
+            end          
+            
         
         end
             

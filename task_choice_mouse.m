@@ -1,4 +1,6 @@
 % Use the mouse to make a click response
+rand('state',sum(100*clock));
+
 if mask_options == 0 
     Screen('DrawTexture',window, Main_Choice,[],Main_Choice_rect);
     Screen(window,'Flip');
@@ -18,28 +20,83 @@ elseif mask_options == 1
 end
 
 
+subid = number_subjects*ones(repeat_per_category*trials_perCate,1);
+cateid = category_number*ones(repeat_per_category*trials_perCate,1);
+repeatid = nan(repeat_per_category*trials_perCate,1);
+orderid = y*ones(repeat_per_category*trials_perCate,1); % is this category the first session? the second etc...
+trialid = [1: repeat_per_category*trials_perCate];
+
+number_item = nan(repeat_per_category*trials_perCate,1);
+highestItem_whichorder = nan(repeat_per_category*trials_perCate,1);
+highestItemSec_whichorder = nan(repeat_per_category*trials_perCate,1);
+
+order_items = nan(repeat_per_category*trials_perCate,6);
+value_items = nan(repeat_per_category*trials_perCate,6);
+which_items = nan(repeat_per_category*trials_perCate,6);
+
+location_items = nan(repeat_per_category*trials_perCate,6);
+viewing_time = nan(repeat_per_category*trials_perCate,6);
+
+choice_location = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by the sequare on the screen
+choice_temporal = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by the sequare on the screen
+confidence =  nan(repeat_per_category*trials_perCate,1);
+response_time = nan(repeat_per_category*trials_perCate,1);
+
+%         trial_simu(subj).trialindex = [1: choice_trials * length(categories)*repeat];
+%         trial_simu(subj).order = [per_trial(subj,total_repeat).order];                  % the order of the the item according to rating, for example [ 40, 20, 30] would be [ 1,3,2]
+%         trial_simu(subj).itemNumber  = [per_trial(subj,total_repeat ).itemNumber];       % the number of items in this trial, in the above example it would be 3
+%         trial_simu(subj).highPosition = [per_trial(subj,total_repeat ).highPosition];      % the postion of the best item, in the above example it would be 1
+%         trial_simu(subj).highPositionSec = [per_trial(subj,total_repeat ).highPositionSec];  % second best item position, 3 in the above example
+%         trial_simu(subj).V_hzero = [per_trial(subj,total_repeat ).ratingsOrdered];    % the ratings in the above defined order, [ 40, 20, 30]
+%         trial_simu(subj).items_corresponding  = [per_trial(subj,total_repeat).itemsOrdered];      % not quite useful in the simulation, the item index corresponding to the ranked rating, used to trace items for presentation purpose
+%         trial_simu(subj).V_hone = [V(subj,total_repeat).one];         
+%         trial_simu(subj).winRec = [win(subj,total_repeat).trial];
+%         trial_simu(subj).defRec = [def(subj,total_repeat).trial];
+
+
 
 rect_width = 300;
 rect_hight = 300;
+hori_itemnumber = 3;
+verti_itemnumber = 2;
+
 for rep = [1:repeat_per_category];
+    repeatid(((rep - 1)*trials_perCate +1) : rep * trials_perCate) = rep;
+    
     k = 1;
     stoptask = 0;
     [per_trial, trials] = group_items(ratingItem)
+%     trials.ratingsordered = per_trial.ratingsOrdered(trial.sequence);
+%     trials.itemsordered = per_trial.itemsOrdered(trial.sequence);
+%     trials.Order = per_trial.order(trial.sequence);
+%     trials.itemNumber = per_trial.itemNumber(trial.sequence);
+%     trials.highestPosition = per_trial.highPosition(trial.sequence);
+%     trials.highestPositionSec = per_trial.highPositionSec(trial.sequence);
+    number_item(((rep - 1)*trials_perCate +1) : rep * trials_perCate) = cell2mat(trials.itemNumber);
+    nub = number_item(((rep - 1)*trials_perCate +1) : rep * trials_perCate);
+    highestItem_whichorder(((rep - 1)*trials_perCate +1) : rep * trials_perCate) = cell2mat(trials.highestPosition);
+    highestItemSec_whichorder(((rep - 1)*trials_perCate +1) : rep * trials_perCate)= cell2mat(trials.highestPositionSec);
+    
+    for o = 1: trials_perCate
+        order_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.Order{o};
+%        position_items(((rep - 1)*trials_perCate +1) : rep * trials_perCate, 1:nub(o)) = nan(repeat_per_category*trials_perCate,6);
+        value_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.ratingsordered{o};
+        which_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.itemsordered{o};
+%        viewing_time = nan(repeat_per_category*trials_perCate,6);
+    end
+    
     while k <= trials_perCate;
-          if stoptask; break; end    
-
-
-        HideCursor()
+         if stoptask; break; end    
+         HideCursor()
           % fixation
-        Screen('DrawTexture',window,pic_cross,[],rect_cross);
-        Screen('Flip', window);
-        jitter_cross = 2;  % THERE IS no need to use a variable jitter
-        %jitter_cross = 1 + 3*rand(1);
-        WaitSecs(jitter_cross);
+         Screen('DrawTexture',window,pic_cross,[],rect_cross);
+         Screen('Flip', window);
+          % THERE IS no need to use a variable jitter
+         WaitSecs(interval.jitter_cross);
 
     % 6 position on the screen
-        horizental_gap = (L - rect_hight*3)/4;
-        vertical_gap = (H - rect_hight*2)/3;
+        horizental_gap = (L - rect_hight*hori_itemnumber)/(hori_itemnumber+1);
+        vertical_gap = (H - rect_hight*verti_itemnumber)/(verti_itemnumber +1);
         rect_pos(:,1) = [horizental_gap ;vertical_gap; horizental_gap + rect_width; vertical_gap + rect_hight];
         rect_pos(:,2) = [2*horizental_gap + rect_width; vertical_gap; 2*horizental_gap + rect_width*2; vertical_gap + rect_hight];
         rect_pos(:,3) = [3*horizental_gap + rect_width*2; vertical_gap ;3*horizental_gap + rect_width*3; vertical_gap + rect_hight];
@@ -50,8 +107,10 @@ for rep = [1:repeat_per_category];
         rect_line = ones(4,6)*rect_linegap.*[-1;-1;1;1];  % leave a 5 pixel border
         % first item appear, random location of the 6, click space to
         % proceed
-        pos_perm = randperm(6);
-        positions_item = rect_pos(:,pos_perm(1:trials.itemNumber{k}));
+        pos_perm = randperm(6);  
+        loc = pos_perm(1:trials.itemNumber{k});
+        positions_item = rect_pos(:,loc);
+        location_items((rep - 1)*trials_perCate + k,1:trials.itemNumber{k}) = loc;
         items_whichones = trials.itemsordered{k};
         ItemImage = {};
 
@@ -77,13 +136,13 @@ for rep = [1:repeat_per_category];
 
                 Screen('DrawTexture', window, ItemTexture, [], positionItem , 0);
                 Screen('Flip', window);
+                showtime = GetSecs();
 
             elseif n >1
                 % rectangles
                 Screen('FrameRect',window, color.frame,[rect_pos + rect_line],rect_linewidth) %light purple
                 % photo
                 ItemImage{n} = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(n)),'.jpeg']);
-                [s1, s2, s3] = size(ItemImage{n});    
                 ItemTexture = Screen('MakeTexture', window, ItemImage{n});
                 positionItem = positions_item(:,n)'; 
                 positionItem = positionItem + correct_picrec;
@@ -94,6 +153,8 @@ for rep = [1:repeat_per_category];
                     Screen('FillRect',window, color.frame,[positions_item(:,1:(n-1))])
                 end
                 Screen('Flip', window);
+                showtime = GetSecs();
+
             end
 
             % press the key to proceed to the next pic
@@ -105,6 +166,11 @@ for rep = [1:repeat_per_category];
                         if find(keyCode == 1) == key.space; break; end;
                     end                
                 end
+                proceed_time = GetSecs();
+                itemview_time = proceed_time - showtime;
+                viewing_time((rep - 1)*trials_perCate + k,n) = itemview_time;
+
+                
 
                 if keyCode(key.escape) == 1
                     stoptask = 1;
@@ -120,6 +186,8 @@ for rep = [1:repeat_per_category];
                         DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
                         Screen('Flip', window);
                         WaitSecs(1)
+                        start_timer = GetSecs;
+                        
 
                         positions_item = positions_item + correct_picrec';
                         Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)             
@@ -150,8 +218,9 @@ for rep = [1:repeat_per_category];
                         DrawFormattedText(window, 'Faites votre choix!', 'center', displayConfig.yCenter, [255 255 255], [], [], [], [], []);
                         Screen('Flip', window);
                         WaitSecs(1)
+                        start_timer = GetSecs;
 
-                            Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
+                        Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)
                             % Screen('FillRect',window, color.ready,[positions_item(:,1:n)])
 
                             % filled rectanges of all the the previous locations
@@ -173,8 +242,6 @@ for rep = [1:repeat_per_category];
         % detect the mouse response
         ShowCursor('Hand')
         SetMouse(displayConfig.xCenter, displayConfig.yCenter, window)
-
-        start_timer = GetSecs;
         too_slow = 0;
 
         MousePress=0; %initializes flag to indicate no response
@@ -189,7 +256,10 @@ for rep = [1:repeat_per_category];
                 findposition = 100;
             end        
         end
-
+        
+            response_time((rep - 1)*trials_perCate + k) = (Click_time - start_timer);
+            
+            
         if strcmp(hostname(1:5),'MBB31')
             choice_x = choice_x - 1920;  % a weird screen coordination system
         end
@@ -202,21 +272,24 @@ for rep = [1:repeat_per_category];
                     findposition = x;
                 end
             end
+            choice_location((rep - 1)*trials_perCate + k) = findposition;
 
             % photo
             if too_slow == 1
                 Screen('TextSize', window, displayConfig.text.bigfont);
-                DrawFormattedText(window, 'Too slow!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
+                DrawFormattedText(window, 'Trop lent! Essai nul', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
             else
                 if findposition <7
+%                    choice_temporal((rep - 1)*trials_perCate + k) = find(loc == findposition);
                     ItemImage = imread([displayConfig.imageLocation, 'cate',num2str(category_number),'\cate', num2str(category_number), '_', num2str(items_whichones(findposition)),'.jpeg']);
                     ItemTexture = Screen('MakeTexture', window, ItemImage);
                     positionItem = positions_item(:,findposition)'; 
                     Screen('FrameRect',window, color.chosen,[positionItem + [-rect_linewidth, -rect_linewidth, rect_linewidth, rect_linewidth]], rect_linewidth) %light purple
                     Screen('DrawTexture', window, ItemTexture, [], positionItem + correct_picrec, 0);      
                 elseif findposition == 1000
+                    choice_temporal((rep - 1)*trials_perCate + k) = nan;
                     Screen('TextSize', window, displayConfig.text.bigfont);
-                    DrawFormattedText(window, 'Wrong click!', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
+                    DrawFormattedText(window, 'En dehors de l''item! Essai nul', 'center', 'center', surface, 60, 0, 0, 1.5, 0, [])
                 end
             end
 
@@ -234,11 +307,19 @@ for rep = [1:repeat_per_category];
             % onsetE.response(i) = GetSecs - 0.5;    % after press space, waited 0.5 seconds
             cursorFinal(k) = ((ansRating - displayConfig.xCenter + scale.half_x)/scale.stepsize)* scale.step_price;     
         else
-            cursorFinal(k) = -100;
+            cursorFinal(k) = NaN;
         end
+        confidence((rep - 1)*trials_perCate + k) = cursorFinal(k);
 
+        
         k = k + 1;
     end
     
     
 end
+
+
+choice_data = [subid,cateid,repeatid,orderid,trialid',number_item,highestItem_whichorder,highestItemSec_whichorder,order_items,value_items,which_items,location_items,viewing_time,choice_location,response_time,confidence];
+resultname = ['choice_subject_',num2str(number_subjects),'cate_',num2str(category_number)];
+cd(resultdir)
+save(resultname,'choice_data');

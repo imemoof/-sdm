@@ -100,11 +100,11 @@ for subj = subid
          end         
         trial_simu(subj).trialindex = [1: choice_trials * length(categories)*repeat];
         trial_simu(subj).order = [per_trial(subj,total_repeat).order];                  % the order of the the item according to rating, for example [ 40, 20, 30] would be [ 1,3,2]
-        trial_simu(subj). itemNumber  = [per_trial(subj,total_repeat ).itemNumber];       % the number of items in this trial, in the above example it would be 3
-        trial_simu(subj). highPosition = [per_trial(subj,total_repeat ).highPosition];      % the postion of the best item, in the above example it would be 1
-        trial_simu(subj). highPositionSec = [per_trial(subj,total_repeat ).highPositionSec];  % second best item position, 3 in the above example
-        trial_simu(subj). V_hzero = [per_trial(subj,total_repeat ).ratingsOrdered];    % the ratings in the above defined order, [ 40, 20, 30]
-        trial_simu(subj). items_corresponding  = [per_trial(subj,total_repeat).itemsOrdered];      % not quite useful in the simulation, the item index corresponding to the ranked rating, used to trace items for presentation purpose
+        trial_simu(subj).itemNumber  = [per_trial(subj,total_repeat ).itemNumber];       % the number of items in this trial, in the above example it would be 3
+        trial_simu(subj).highPosition = [per_trial(subj,total_repeat ).highPosition];      % the postion of the best item, in the above example it would be 1
+        trial_simu(subj).highPositionSec = [per_trial(subj,total_repeat ).highPositionSec];  % second best item position, 3 in the above example
+        trial_simu(subj).V_hzero = [per_trial(subj,total_repeat ).ratingsOrdered];    % the ratings in the above defined order, [ 40, 20, 30]
+        trial_simu(subj).items_corresponding  = [per_trial(subj,total_repeat).itemsOrdered];      % not quite useful in the simulation, the item index corresponding to the ranked rating, used to trace items for presentation purpose
         trial_simu(subj).V_hone = [V(subj,total_repeat).one];         
         trial_simu(subj).winRec = [win(subj,total_repeat).trial];
         trial_simu(subj).defRec = [def(subj,total_repeat).trial];
