@@ -44,12 +44,12 @@
         instruction_dir = ['C:\Users\chen.hu\Documents\GitHub\sdm\instructions_sdm\'];
         
     elseif strcmp(hostname(1:6),'PRISME')
-        addpath('C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior')
-        root = 'C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior'
+        addpath('C:\Users\chen.hu\Documents\GitHub\sdm')
+        root = 'C:\Users\chen.hu\Documents\GitHub\sdm'
         cd(root)
-        displayConfig.imageLocation = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\'];  
-        resultdir = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\results_sdm\'];        
-        instruction_dir = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\instructions_sdm\'];
+        displayConfig.imageLocation = ['C:\Users\chen.hu\Documents\GitHub\sdm\'];  
+        resultdir = ['C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\'];        
+        instruction_dir = ['C:\Users\chen.hu\Documents\GitHub\sdm\instructions_sdm\'];
 
     end
 
@@ -85,7 +85,8 @@
     scale.word_gap = 50;
     scale.word_width = 180;
 
-    scale.gap = 10;
+    word_scale_distance =3;
+    scale.gap = 15;
     scale.stepsize = 2 * scale.half_x * 0.01;  % 100 steps in total
     scale.totalprice = 100;
     scale.step_price = scale.totalprice/100;  
@@ -158,6 +159,7 @@
             category_number = category_order(y);
     
             if do_rating_task == 1
+                FoodorConf = 1;  
                 task_rating
             end
             if do_choice_task == 1

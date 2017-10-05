@@ -14,13 +14,13 @@ while isvalidate == 0;
             Screen('DrawLine',window, surface, displayConfig.xCenter + scale.half_x/2, displayConfig.yCenter + (scale.position_y - scale.gap), displayConfig.xCenter + scale.half_x/2, displayConfig.yCenter + (scale.position_y ), scale.line_width)   % 1/4 vertical marker on the right
             
             Screen('TextSize', window, displayConfig.text.smallfont);
-            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             if FoodorConf == 1,
-                DrawFormattedText(window, ['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window, ['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             elseif FoodorConf == 0,
-                DrawFormattedText(window, ['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window, ['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             end
-            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
                                     
             % display the cursor
             CursorImage = imread([displayConfig.imageLocation, 'Mark.bmp']);
@@ -74,13 +74,13 @@ while isvalidate == 0;
             Screen('DrawLine',window, surface, displayConfig.xCenter + scale.half_x/2, displayConfig.yCenter + (scale.position_y - scale.gap), displayConfig.xCenter + scale.half_x/2, displayConfig.yCenter + (scale.position_y ), scale.line_width)   % 1/4 vertical marker on the right
             
             Screen('TextSize', window, displayConfig.text.smallfont);
-            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             if FoodorConf == 1,
-                DrawFormattedText(window,['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window,['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             elseif FoodorConf == 0,
-                DrawFormattedText(window,['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window,['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             end
-            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5* scale.gap),surface);
+            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance* scale.gap),surface);
          
                  
             positionCursor = [(xCursor - cs2/2), (displayConfig.yCenter + (scale.position_y + scale.gap)), (xCursor + cs2/2), (displayConfig.yCenter + (scale.position_y + scale.gap) + cs1)];
@@ -130,13 +130,13 @@ while isvalidate == 0;
             
       
             Screen('TextSize', window, displayConfig.text.smallfont);
-            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+            DrawFormattedText(window,['pas du tout'],displayConfig.xCenter - scale.half_x - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             if FoodorConf == 1,
-                DrawFormattedText(window,['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window,['enormement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             elseif FoodorConf == 0,
-                DrawFormattedText(window,['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+                DrawFormattedText(window,['totalement'], displayConfig.xCenter + (scale.half_x - scale.word_width/2), displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
             end
-            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - 1.5*scale.gap),surface);
+            DrawFormattedText(window,['moyennement'], displayConfig.xCenter - scale.word_width/2, displayConfig.yCenter + (scale.position_y - word_scale_distance*scale.gap),surface);
            
                        
             positionCursor = [(xCursor - cs2/2), (displayConfig.yCenter + (scale.position_y + scale.gap)), (xCursor + cs2/2), (displayConfig.yCenter + (scale.position_y + scale.gap) + cs1)];
