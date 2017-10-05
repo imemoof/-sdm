@@ -4,6 +4,7 @@
     practice_or_not = input('Is this a practice session?'); 
     total_categories = [1:5];
     category_order = total_categories(randperm(length(total_categories)));
+    repeat_per_category = 4;
     
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
@@ -100,7 +101,7 @@
     total_cate = 10;
     FoodorConf = 1;  % 0 = confidence rating, 1= food rating.
     items_y_up = 150 % move the food item up from the center to place scales underneath
-    trials_perCate = 3;
+    trials_perCate = 18;
     
     rect_linewidth = 3;
     rect_linegap = 3;

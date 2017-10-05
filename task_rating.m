@@ -12,7 +12,7 @@
     stoptask = 0;
     
     i = 1;
-        while i<= 5 %item_perCate,
+        while i<= item_perCate,
             if stoptask
                 break
             end          
