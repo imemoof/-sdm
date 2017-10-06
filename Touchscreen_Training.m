@@ -5,7 +5,7 @@
 %recation time is displayed and printed on console
 %while the green or red rectangle is displayed, user can exit the loop by
 %pressing any key on keyboard
-
+ 
 % By Gilles Rautureau, September 2017
 
 clear all
