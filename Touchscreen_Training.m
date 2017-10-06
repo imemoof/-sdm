@@ -13,7 +13,7 @@ clear all
 % to judge which computer are we using
 [~, hostname] = system('hostname')
 if strcmp(hostname(1:5),'MBB31')
-    addpath('C:\Users\chen.hu\Documents\GitHub\sdm')
+    addpath('C:\Users\chen.hu\Documents\Gi tHub\sdm')
     root = 'C:\Users\chen.hu\Documents\GitHub\sdm';
     cd(root)
     displayConfig.imageLocation = ['C:\Users\chen.hu\Documents\GitHub\sdm\'];
