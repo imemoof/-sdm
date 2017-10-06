@@ -1,4 +1,8 @@
+<<<<<<< HEAD
    %display rectangle at random position
+=======
+%display rectangle at random position
+>>>>>>> 86542004fba64414caaad6889f7690a12a5696bb
 %wait for user click
 %if click is inside, the rectangle become green
 %if outside, red
