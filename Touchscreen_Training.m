@@ -21,13 +21,12 @@ if strcmp(hostname(1:5),'MBB31')
     instruction_dir = ['C:\Users\chen.hu\Documents\GitHub\sdm\instructions_sdm\'];
 
 elseif strcmp(hostname(1:6),'PRISME')
-    addpath('C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior')
-    root = 'C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior'
+    addpath('C:\Users\chen.hu\Documents\GitHub\sdm')
+    root = 'C:\Users\chen.hu\Documents\GitHub\sdm'
     cd(root)
-    displayConfig.imageLocation = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\'];  
-    resultdir = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\results_sdm\'];        
-    instruction_dir = ['C:\Users\chen.hu\Documents\MATLAB\experiment\SDM_behavior\instructions_sdm\'];
-
+    displayConfig.imageLocation = ['C:\Users\chen.hu\Documents\GitHub\sdm\'];  
+    resultdir = ['C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\'];        
+    instruction_dir = ['C:\Users\chen.hu\Documents\GitHub\sdm\instructions_sdm\'];
 end
 
 total_touch = 10;

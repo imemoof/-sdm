@@ -41,6 +41,8 @@ choice_location = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by th
 choice_temporal = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by the sequare on the screen
 confidence =  nan(repeat_per_category*trials_perCate,1);
 response_time = nan(repeat_per_category*trials_perCate,1);
+choice_positionx = nan(repeat_per_category*trials_perCate,1);
+choice_positiony = nan(repeat_per_category*trials_perCate,1);
 
 %         trial_simu(subj).trialindex = [1: choice_trials * length(categories)*repeat];
 %         trial_simu(subj).order = [per_trial(subj,total_repeat).order];                  % the order of the the item according to rating, for example [ 40, 20, 30] would be [ 1,3,2]
@@ -254,6 +256,8 @@ for rep = [1:repeat_per_category];
                 MousePress = 1;
                 too_slow = 1;
                 findposition = 100;
+                choice_x = -100;
+                choice_y = -100;
             end        
         end
         
@@ -263,7 +267,9 @@ for rep = [1:repeat_per_category];
         if strcmp(hostname(1:5),'MBB31')
             choice_x = choice_x - 1920;  % a weird screen coordination system
         end
-
+            choice_positionx((rep - 1)*trials_perCate + k) = choice_x;
+            choice_positiony((rep - 1)*trials_perCate + k) = choice_y;
+            
         %    Then feed back phase, the chosen item appear in the red square
             findposition = 1000;
             for x = 1: trials.itemNumber{k}
@@ -319,7 +325,7 @@ for rep = [1:repeat_per_category];
 end
 
 
-choice_data = [subid,cateid,repeatid,orderid,trialid',number_item,highestItem_whichorder,highestItemSec_whichorder,order_items,value_items,which_items,location_items,viewing_time,choice_location,response_time,confidence];
+choice_data = [subid,cateid,repeatid,orderid,trialid',number_item,highestItem_whichorder,highestItemSec_whichorder,order_items,value_items,which_items,location_items,viewing_time,choice_location,response_time,confidence,choice_positionx,choice_positiony];
 resultname = ['choice_subject_',num2str(number_subjects),'cate_',num2str(category_number)];
 cd(resultdir)
 save(resultname,'choice_data');
