@@ -1,4 +1,4 @@
-  %display rectangle at random position
+     %display rectangle at random position
 %wait for user click
 %if click is inside, the rectangle become green
 %if outside, red
