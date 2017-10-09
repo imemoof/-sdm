@@ -9,23 +9,8 @@
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
-<<<<<<< HEAD
         total_categories = [2,3,5];
-=======
-<<<<<<< HEAD
         total_categories = [4];
-=======
-<<<<<<< HEAD
-        total_categories = [4];
-=======
-<<<<<<< HEAD
-        total_categories = [2:5];
-=======
-        total_categories = [4];
->>>>>>> b19f8bcbd163c2684a2f3ebc0b85dbc0020564b0
->>>>>>> 2926f474a5087246f1edd090dc7a6605f8b8ce5c
->>>>>>> cf42dbbb11555154ee36e766a74a88343c5008b8
->>>>>>> 5780808a94bd9c14fb3de6fa2eadef0f57e2f12d
         category_order = total_categories(randperm(length(total_categories)));
         repeat_per_category = 4;
         betweenCat_pause = 180;
