@@ -57,7 +57,7 @@
 
 %% screen configuration
     screens = Screen('Screens');
-    HideCursor()
+    % HideCursor()
     whichScreen =  max(screens);
 
     Screen('Preference', 'SkipSyncTests', 0);
