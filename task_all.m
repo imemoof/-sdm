@@ -1,4 +1,4 @@
-% Rating task for different items
+ o% Rating task for different items
     clear all;  
     rand('state',sum(100*clock));
 
