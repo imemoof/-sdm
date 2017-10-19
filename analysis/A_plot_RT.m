@@ -3,11 +3,13 @@ subid = [1:4,6:12];
 % trial_number = 72;
 plotwidth = 2;
  [~, hostname] = system('hostname')
+ [~, hostname] = system('hostname')
     if strcmp(hostname(1:5),'MBB31')
         resultsdir = ['C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\'];    
         plotsdir = ['C:\Users\chen.hu\Documents\GitHub\sdm\results_plot\'];        
-%     elseif strcmp(hostname(1:6),'PRISME')
-%         resultdir = ['C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\'];        
+    else
+        resultsdir = ['/Users/chen/Documents/GitHub/sdm/results_sdm/'];    
+        plotsdir = ['/Users/chen/Documents/GitHub/sdm/results_plot/'];        
     end
     cd(resultsdir)
 
@@ -19,7 +21,7 @@ highpos_index = 7;
 highpos2_index = 8;
 rt_index = 40;
 
-cate_total = [15];
+cate_total = [1];
 for cate_number = cate_total;
 
     bin_simu = {};
@@ -39,7 +41,7 @@ for cate_number = cate_total;
             pos_bin = (find(pos ==i));
             bin_simu(subj). items3_1{i} = items3(pos_bin);
             bin_simu(subj). H0_rt_3{i} = rt_order(bin_simu(subj). items3_1{i});  
-            m_h0_3_1(subj,i) = nanmean(bin_simu(subj). H0_rt_3{i});
+            m_h0_3_1(subj,i) = nanmedian(bin_simu(subj). H0_rt_3{i});
         end     
     
     
@@ -50,7 +52,7 @@ for cate_number = cate_total;
             pos_bin = (find(pos ==i));
             bin_simu(subj). items4_1{i} = items4(pos_bin);
             bin_simu(subj). H0_rt_4{i} = rt_order(bin_simu(subj). items4_1{i});   
-            m_h0_4_1(subj,i) = nanmean(bin_simu(subj). H0_rt_4{i});
+            m_h0_4_1(subj,i) = nanmedian(bin_simu(subj). H0_rt_4{i});
         end     
      
         % get 5 items trials
@@ -60,7 +62,7 @@ for cate_number = cate_total;
             pos_bin = (find(pos ==i));
             bin_simu(subj). items5_1{i} = items5(pos_bin);
             bin_simu(subj). H0_rt_5{i} = rt_order(bin_simu(subj). items5_1{i});   
-            m_h0_5_1(subj,i) = nanmean(bin_simu(subj). H0_rt_5{i});
+            m_h0_5_1(subj,i) = nanmedian(bin_simu(subj). H0_rt_5{i});
         end     
     
      
@@ -71,7 +73,7 @@ for cate_number = cate_total;
             pos_bin = (find(pos ==i));
             bin_simu(subj). items6_1{i} = items6(pos_bin);
             bin_simu(subj). H0_rt_6{i} = rt_order(bin_simu(subj). items6_1{i});   
-            m_h0_6_1(subj,i) = nanmean(bin_simu(subj). H0_rt_6{i});
+            m_h0_6_1(subj,i) = nanmedian(bin_simu(subj). H0_rt_6{i});
          end     
     end
 
@@ -79,10 +81,10 @@ for cate_number = cate_total;
     figure
     % subplot(1,2,1), 
     hold on, set(gca,'fontsize',20)%,ylim([0.75, 1])
-    errorbar(nanmedian(m_h0_3_1(subid,:)),nanstd(m_h0_3_1(subid,:))/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
-    errorbar(nanmedian(m_h0_4_1(subid,:)),nanstd(m_h0_4_1(subid,:))/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
-    errorbar(nanmedian(m_h0_5_1(subid,:)),nanstd(m_h0_5_1(subid,:))/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
-    errorbar(nanmedian(m_h0_6_1(subid,:)),nanstd(m_h0_6_1(subid,:))/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
+    errorbar(nanmean(m_h0_3_1(subid,:)),nanstd(m_h0_3_1(subid,:))/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
+    errorbar(nanmean(m_h0_4_1(subid,:)),nanstd(m_h0_4_1(subid,:))/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
+    errorbar(nanmean(m_h0_5_1(subid,:)),nanstd(m_h0_5_1(subid,:))/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
+    errorbar(nanmean(m_h0_6_1(subid,:)),nanstd(m_h0_6_1(subid,:))/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
     legend('3 items','4 items','5 items', '6 items');
     ylabel ('median responset time')
     xlabel('position/order of the best option')
