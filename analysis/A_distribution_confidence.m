@@ -38,7 +38,7 @@ end
 legend('Fruits & Veg', 'Snacks', 'Music','Magazines','Movies');
 
 xlabel('subject rating (n = 11)')
-ylabel('cpnfidence rating distribution')
+ylabel('confidence rating distribution')
 h1 = plot([0,0],[0,0.05],'m--');
 h2 = plot([100,100],[0,0.05],'m--')  
 set(get(get(h1,'Annotation'),'LegendInformation'),'IconDisplayStyle','off');
