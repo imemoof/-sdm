@@ -102,24 +102,24 @@ set(gcf, 'Position', [0, 0, 1600, 600])
 cd(imgdir);saveas(gcf,['beta',num2str(beta*100),'_C1.tif']);
 
 
-% plot the probability of chosing the second best option
-figure 
-subplot(1,2,1), hold on, set(gca,'fontsize',20) %,ylim([0.75, 1])
-errorbar(nanmean(m_h0_3_2),nanstd(m_h0_3_2)/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h0_4_2),nanstd(m_h0_4_2)/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h0_5_2),nanstd(m_h0_5_2)/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h0_6_2),nanstd(m_h0_6_2)/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
-legend('3 items','4 items','5 items', '6 items');
-ylabel ('2nd best option choice proba')
-title ('Simulation of H0')
-
-subplot(1,2,2), hold on,set(gca,'fontsize',20) %,ylim([0.75, 1])
-errorbar(nanmean(m_h1_3_2),nanstd(m_h1_3_2)/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h1_4_2),nanstd(m_h1_4_2)/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h1_5_2),nanstd(m_h1_5_2)/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
-errorbar(nanmean(m_h1_6_2),nanstd(m_h1_6_2)/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
-legend('3 items','4 items','5 items', '6 items');
-ylabel ('2nd best option choice proba')
-title (['Simulation of H1 (betaC = ',num2str(beta),')'])
-set(gcf, 'Position', [0, 0, 1600, 600])
-cd(imgdir); saveas(gcf,['beta',num2str(beta*100),'_C2.tif']);
+% % plot the probability of chosing the second best option
+% figure 
+% subplot(1,2,1), hold on, set(gca,'fontsize',20) %,ylim([0.75, 1])
+% errorbar(nanmean(m_h0_3_2),nanstd(m_h0_3_2)/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h0_4_2),nanstd(m_h0_4_2)/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h0_5_2),nanstd(m_h0_5_2)/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h0_6_2),nanstd(m_h0_6_2)/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
+% legend('3 items','4 items','5 items', '6 items');
+% ylabel ('2nd best option choice proba')
+% title ('Simulation of H0')
+% 
+% subplot(1,2,2), hold on,set(gca,'fontsize',20) %,ylim([0.75, 1])
+% errorbar(nanmean(m_h1_3_2),nanstd(m_h1_3_2)/sqrt(length(subid)),'Color','b', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h1_4_2),nanstd(m_h1_4_2)/sqrt(length(subid)),'Color','m', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h1_5_2),nanstd(m_h1_5_2)/sqrt(length(subid)),'Color','g', 'LineWidth',plotwidth)
+% errorbar(nanmean(m_h1_6_2),nanstd(m_h1_6_2)/sqrt(length(subid)),'Color','r', 'LineWidth',plotwidth)
+% legend('3 items','4 items','5 items', '6 items');
+% ylabel ('2nd best option choice proba')
+% title (['Simulation of H1 (betaC = ',num2str(beta),')'])
+% set(gcf, 'Position', [0, 0, 1600, 600])
+% cd(imgdir); saveas(gcf,['beta',num2str(beta*100),'_C2.tif']);

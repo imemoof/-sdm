@@ -11,9 +11,9 @@ plotwidth = 2;
 beta = 10.02;
 [~, hostname] = system('hostname'); % try to identify which computer am I using
 if strcmp(hostname(1:5),'MBB31')
-    addpath C:\Users\chen.hu\Dropbox\PHD\SDM_behavior
-    resultdir = 'C:\Users\chen.hu\Dropbox\PHD\SDM_behavior\simulation\data';
-    imgdir = 'C:\Users\chen.hu\Dropbox\PHD\SDM_behavior\simulation\plots';
+    addpath C:\Users\chen.hu\Documents\GitHub\sdm
+    resultdir = 'C:\Users\chen.hu\Documents\GitHub\sdm\simulation\data';
+    imgdir = 'C:\Users\chen.hu\Documents\GitHub\sdm\simulation\plots';
 else
     addpath /Users/chen/Dropbox/PHD/SDM_behavior
     resultdir = '/Users/chen/Dropbox/PHD/SDM_behavior/simulation/data';
@@ -57,8 +57,7 @@ for subj = subid
                            while k <= length(v_zero) -1
                                if v_zero(winning_index) > v_zero(k+1)                                                                % the previous winning option is the better of the two 
                                     defeat_index = k+ 1;       
-                                    winning_index = winning_index;                   
-                                    v_zero(defeat_index ) = v_zero(defeat_index ) + beta*(-1);                     
+                                    v_zero(defeat_index) = v_zero(defeat_index ) + beta*(-1);                     
                                     v_zero(winning_index) = v_zero(winning_index) + beta*1;
                                     defeat_record (defeat_index) = defeat_record(defeat_index) +1;  
                                     win_record(winning_index) = win_record(winning_index) +1;
@@ -67,8 +66,8 @@ for subj = subid
                                     defeat_index = winning_index;     
                                     winning_index = k + 1;  
                                     v_zero(defeat_index ) = v_zero(defeat_index ) + beta*(-1);                     
-                                    defeat_record (defeat_index) = defeat_record(defeat_index) +1;
                                     v_zero(winning_index) = v_zero(winning_index) + beta*1;
+                                    defeat_record (defeat_index) = defeat_record(defeat_index) +1;
                                     win_record(winning_index) = win_record(winning_index) +1;
 
                                elseif v_zero(winning_index) == v_zero(k+1)  % if the two options have the same value, flip a coin to decide which wins
@@ -76,8 +75,8 @@ for subj = subid
                                    if        coin >= 0.5, winning_index = winning_index; defeat_index = k+1;
                                    elseif coin <0.5, defeat_index = winning_index; winnng_index = k+1; end
                                     v_zero(defeat_index ) = v_zero(defeat_index ) + beta*(-1);                     
-                                    defeat_record (defeat_index) = defeat_record(defeat_index) +1; 
                                     v_zero(winning_index) = v_zero(winning_index) + beta*1;
+                                    defeat_record (defeat_index) = defeat_record(defeat_index) +1; 
                                     win_record(winning_index) = win_record(winning_index) +1;                
                                end
                                k = k +  1;
