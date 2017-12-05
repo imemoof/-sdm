@@ -23,7 +23,7 @@ end
 subid = number_subjects*ones(repeat_per_category*trials_perCate,1);
 cateid = category_number*ones(repeat_per_category*trials_perCate,1);
 repeatid = nan(repeat_per_category*trials_perCate,1);
-orderid = y*ones(repeat_per_category*trials_perCate,1); % is this category the first session? the second etc...
+orderid = y * ones(repeat_per_category*trials_perCate,1); % is this category the first session? the second etc...
 trialid = [1: repeat_per_category*trials_perCate];
 
 number_item = nan(repeat_per_category*trials_perCate,1);
@@ -41,7 +41,7 @@ choice_location = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by th
 choice_temporal = nan(repeat_per_category*trials_perCate,1);  % 1-6 marked by the sequare on the screen
 confidence =  nan(repeat_per_category*trials_perCate,1);
 response_time = nan(repeat_per_category*trials_perCate,1);
-choice_positionx = nan(repeat_per_category*trials_perCate,1);
+choice_positiox = nan(repeat_per_category*trials_perCate,1);
 choice_positiony = nan(repeat_per_category*trials_perCate,1);
 
 %         trial_simu(subj).trialindex = [1: choice_trials * length(categories)*repeat];

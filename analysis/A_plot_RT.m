@@ -13,13 +13,11 @@ plotwidth = 2;
     end
     cd(resultsdir)
 
-    
-    
-    
-itemnumber_index = 6;
-highpos_index = 7;
-highpos2_index = 8;
-rt_index = 40;
+       
+itemnumber_index = 6;   % how many items in this trial
+highpos_index = 7;      % the position of the higest valued item
+highpos2_index = 8;     % the position of the second highest valued item
+rt_index = 40;          % response time index
 
 cate_total = [1];
 for cate_number = cate_total;

@@ -10,7 +10,7 @@
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
         total_categories = [2,3,5];
-        total_categories = [4];
+%         total_categories = [4];
         category_order = total_categories(randperm(length(total_categories)));
         repeat_per_category = 4;
         betweenCat_pause = 180;
