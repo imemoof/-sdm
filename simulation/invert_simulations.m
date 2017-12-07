@@ -22,7 +22,7 @@ switch model_name
         var_prior= [1];
     case 'm_hone'
         model_fun = @m_hone;
-        prior = [0.046, beta];
+        prior = [0.046,0];
         var_prior = eye(2);
 end
 
@@ -64,8 +64,8 @@ for s = 1:k
 
     for mod=1:length(modeles)        
         %% Definition of model options
-        nb_param=param(mod);       
-        g_name=modeles{mod};
+        nb_param= param(mod);       
+        g_name= modeles{mod};
         f_name = [];
         
         u_r = [choice', itemnum',values,highpos',highest_value']';  % 180*10 matrix, values  (3-8)

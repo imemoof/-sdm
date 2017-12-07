@@ -11,9 +11,6 @@ plotwidth = 2;
     end
     cd(resultsdir)
 
-    
-    
-    
 itemnumber_index = 6;
 highpos_index = 7;
 highpos2_index = 8;

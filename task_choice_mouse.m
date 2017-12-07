@@ -44,18 +44,6 @@ response_time = nan(repeat_per_category*trials_perCate,1);
 choice_positiox = nan(repeat_per_category*trials_perCate,1);
 choice_positiony = nan(repeat_per_category*trials_perCate,1);
 
-%         trial_simu(subj).trialindex = [1: choice_trials * length(categories)*repeat];
-%         trial_simu(subj).order = [per_trial(subj,total_repeat).order];                  % the order of the the item according to rating, for example [ 40, 20, 30] would be [ 1,3,2]
-%         trial_simu(subj).itemNumber  = [per_trial(subj,total_repeat ).itemNumber];       % the number of items in this trial, in the above example it would be 3
-%         trial_simu(subj).highPosition = [per_trial(subj,total_repeat ).highPosition];      % the postion of the best item, in the above example it would be 1
-%         trial_simu(subj).highPositionSec = [per_trial(subj,total_repeat ).highPositionSec];  % second best item position, 3 in the above example
-%         trial_simu(subj).V_hzero = [per_trial(subj,total_repeat ).ratingsOrdered];    % the ratings in the above defined order, [ 40, 20, 30]
-%         trial_simu(subj).items_corresponding  = [per_trial(subj,total_repeat).itemsOrdered];      % not quite useful in the simulation, the item index corresponding to the ranked rating, used to trace items for presentation purpose
-%         trial_simu(subj).V_hone = [V(subj,total_repeat).one];         
-%         trial_simu(subj).winRec = [win(subj,total_repeat).trial];
-%         trial_simu(subj).defRec = [def(subj,total_repeat).trial];
-
-
 
 rect_width = 300;
 rect_hight = 300;
@@ -68,12 +56,6 @@ for rep = [1:repeat_per_category];
     k = 1;
     stoptask = 0;
     [per_trial, trials] = group_items(ratingItem)
-%     trials.ratingsordered = per_trial.ratingsOrdered(trial.sequence);
-%     trials.itemsordered = per_trial.itemsOrdered(trial.sequence);
-%     trials.Order = per_trial.order(trial.sequence);
-%     trials.itemNumber = per_trial.itemNumber(trial.sequence);
-%     trials.highestPosition = per_trial.highPosition(trial.sequence);
-%     trials.highestPositionSec = per_trial.highPositionSec(trial.sequence);
     number_item(((rep - 1)*trials_perCate +1) : rep * trials_perCate) = cell2mat(trials.itemNumber);
     nub = number_item(((rep - 1)*trials_perCate +1) : rep * trials_perCate);
     highestItem_whichorder(((rep - 1)*trials_perCate +1) : rep * trials_perCate) = cell2mat(trials.highestPosition);
@@ -81,10 +63,8 @@ for rep = [1:repeat_per_category];
     
     for o = 1: trials_perCate
         order_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.Order{o};
-%        position_items(((rep - 1)*trials_perCate +1) : rep * trials_perCate, 1:nub(o)) = nan(repeat_per_category*trials_perCate,6);
         value_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.ratingsordered{o};
         which_items((rep - 1)*trials_perCate + o, 1:nub(o)) = trials.itemsordered{o};
-%        viewing_time = nan(repeat_per_category*trials_perCate,6);
     end
     
     while k <= trials_perCate;
@@ -190,7 +170,6 @@ for rep = [1:repeat_per_category];
                         WaitSecs(1)
                         start_timer = GetSecs;
                         
-
                         positions_item = positions_item + correct_picrec';
                         Screen('FrameRect',window, color.ready,[rect_pos + rect_line],rect_linewidth)             
                         ItemTexture1 = Screen('MakeTexture', window, ItemImage{1});

@@ -17,13 +17,13 @@ total_subject = [1:4,6:12];
             load([resultsdir subdir filesep strcat('choice_subject_',num2str(subid),'cate_',num2str(cate_number),'.mat')]); 
 %             % Get rid of data where choice trials are not correct or too
 %             slow
-%             for q = 1:length(choice_data)
-%                 if choice_data(q,39) > 10
-%                     choice_data(q,39) = NaN;
-%                     choice_data(q,40) = NaN;
-%                     choice_data(q,41) = NaN;
-%                 end
-%             end
+            for q = 1:length(choice_data)
+                if choice_data(q,39) > 10
+                    choice_data(q,39) = NaN;
+                    choice_data(q,40) = NaN;
+                    choice_data(q,41) = NaN;
+                end
+            end
             
                 
             choice_results  = [choice_results;choice_data];
