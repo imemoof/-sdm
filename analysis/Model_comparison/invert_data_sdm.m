@@ -62,7 +62,7 @@ for s = 1:N_sub
             prior = [0.046]; %#ok<NBRAK>
             param = length(prior);
 
-            dim = struct('n',0,...  % number of hidden states
+            dim = struct('n',N_items,...  % number of hidden states
                 'n_theta',0,... % number of evolution parameters
                 'n_phi', param,... % number of observation parameters
                 'n_t',Ntrials); % number of trials
