@@ -13,8 +13,14 @@ model_evidence_data = [];
 for model_n = [1:2]
     param = invert_data_sdm(model_n, sub);
     ll = param.Rating_model_evidence;
-    model_evidence_data= [model_evidence_data; ll'];
-    PARAM_data{model_n} = param{model_n}; 
+    model_evidence_data = [model_evidence_data; ll'];
+    if model_n == 1
+        PARAM_data = param;
+    else
+        PARAM_data(model_n,1) = param;
+    end
+    
+            
 end
 cd(resultdir);
 save (['sdm_model_fit_m12.mat'],'model_evidence_data','PARAM_data') % ,'beta_allsessions','a_reward_allsessions','a_effort_allsessions');
