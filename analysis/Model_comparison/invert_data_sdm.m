@@ -1,4 +1,4 @@
-function param = invert_simulations(model_n, dispo, sub)
+function param = invert_data_sdm(model_n, sub)
 % model_n = 2;
 % sub = 2;
 
@@ -12,7 +12,6 @@ end
 
 %% Load input data
 INDX_category = 2;
-INDX_repeat = 3;
 INDX_itemnumber = 6;
 INDX_values = 15:20;
 INDX_itemid = 21:26;
@@ -28,12 +27,11 @@ for s = 1:N_sub
     mydatafile = load([root,'sub',num2str(subj),filesep,'choice_subject_',num2str(subj),'cate_15.mat']);
     myratingfile = load([root,'sub',num2str(subj),filesep,'pleasantRating_subject_',num2str(subj),'_cate_15.mat']);
     Ntrials = length(mydatafile.choice_data);
-    [choice_position, itemnum,repeat, which_category] = deal(NaN(Ntrials,1));
+    [choice_position, itemnum, which_category] = deal(NaN(Ntrials,1));
     [values,itemid,choice] = deal(NaN(Ntrials,6));
     
     for i = 1: Ntrials
         which_category(i) =  mydatafile.choice_data(i,INDX_category);
-        repeat(i) = mydatafile.choice_data(i,INDX_repeat);
         itemnum(i) = mydatafile.choice_data(i,INDX_itemnumber);
         itemid(i, :)=  mydatafile.choice_data(i,INDX_itemid)* which_category(i);
         
@@ -47,18 +45,21 @@ for s = 1:N_sub
     end
     
     y = choice';
-    u_r = [which_category, itemnum, itemid, values]';  % 360* 8, 3- 8, itemid
+    
+    
+     u_r = [which_category, itemnum, itemid, values]';  % 360* 8, 3- 8, itemid
     % u_r = [which_category, itemnum, itemid]';  % 360* 8, 3- 8, itemid
     % X0 = myratingfile.rating_all;
     
     
     
     %% Modeles ? tester :
-    models_set = {'m_hzero','m_hone'};
+    models_set = {'m_h0','m_default','m_primacy','m_recency','m_primacy_default', 'm_default_recency','m_primacy_recency','m_primacy_default_recency'};
     model_name = models_set{model_n};
     
     switch model_name
-        case 'm_hzero'   % linear model- one parameter, which is the beta
+        % model 1 the null model
+        case 'm_h0'   % linear model- one parameter, which is the beta
             model_obs = @obs_000;
             model_evo = [];
             prior = [0.046]; %#ok<NBRAK>
@@ -73,12 +74,82 @@ for s = 1:N_sub
             priors.SigmaTheta = 1e2*eye(1);
             
             
-        case 'm_hone'
-            model_obs = @evo_010;
-            model_evo = @obs_000_evo;
+        case 'm_default'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_010;
             prior = [0.046];
             param = length(prior);
-            
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',1,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension
+        
+        case 'm_primacy'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_100;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',1,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension            
+                
+        case 'm_recency'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_001;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',1,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension  
+        
+        case 'm_primacy_default'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_110;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',2,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension
+        
+        case 'm_default_recency'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_011;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',2,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension   
+        
+        case 'm_primacy_recency'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_101;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',2,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension  
+        
+        case 'm_primacy_default_recency'
+            model_obs = @obs_000_evo;
+            model_evo = @evo_111;
+            prior = [0.046];
+            param = length(prior);
+          dim = struct('n',N_items,...  % number of hidden states
+            'n_theta',3,... % number of evolution parameters
+            'n_phi', param,... % number of observation parameters
+            'n_t',Ntrials); % number of trials
+        %        'p',1,... % total output dimension          
     end
     
     
@@ -86,13 +157,6 @@ for s = 1:N_sub
     g_name = model_obs;
     f_name = model_evo;
     
-    if model_n ~= 1
-        dim = struct('n',N_items,...  % number of hidden states
-            'n_theta',1,... % number of evolution parameters
-            'n_phi', param,... % number of observation parameters
-            'n_t',Ntrials); % number of trials
-        %        'p',1,... % total output dimension
-    end
     
     options.DisplayWin = 1; % Display setting
     options.GnFigs = 0; % Plotting option
@@ -101,7 +165,6 @@ for s = 1:N_sub
     options.isYout = zeros(size(choice)); % vector of the size of y, 1 if trial out
     options.sources.out  = 1:6;
     options.sources.type = 2;
-    %     options.multinomial = 1;
     %      options.binomial = 1; % 1 if binary data, 0 if continuous data
     
     %% Definition of priors
@@ -141,7 +204,7 @@ for s = 1:N_sub
     
     [posteriorr,outr] = VBA_NLStateSpaceModel(y,u_r,f_name,g_name,dim,options);    
     
-    model_evidence_r(N_sub,1)= outr.F;
+    model_evidence_r(N_sub,1)= outr.F; %#ok<AGROW>
     obs_param_all_r(N_sub,:)= posteriorr.muPhi(1:end)';
     evo_param_all_r(N_sub,:)= posteriorr.muTheta(1:end)';
     
@@ -151,5 +214,4 @@ end
 
 param = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r,...
     'posterior',posterior_all,'out',out_all);
-end
 

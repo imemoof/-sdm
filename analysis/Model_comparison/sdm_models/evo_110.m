@@ -1,10 +1,16 @@
-function  [fx] = evo_010(x,P,u,in)
+function  [fx] = evo_110(x,P,u,in)
 
-    alpha = abs(P(1));
+    bonus_primacy = P(1);
+    alpha = abs(P(2));
+    
     ID_items = u(3:8);
     ID_items =(ID_items(~isnan(ID_items)));
     v_zero = x(ID_items);
     
+    % primacy bonus
+    v_zero(1) = v_zero(1) + bonus_primacy;
+        
+    % default bonus
     winning_index = 1;
     k = 1;
 
