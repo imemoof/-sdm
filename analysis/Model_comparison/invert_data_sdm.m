@@ -1,7 +1,7 @@
 % function param = invert_data_sdm(model_n, sub)
 clear all
 close all
-model_n = 5;
+model_n = 6;
 sub = [1:4, 6:12];
 
 
