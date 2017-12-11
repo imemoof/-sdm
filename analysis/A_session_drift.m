@@ -91,3 +91,11 @@ for cate_number = cate_total
     xlabel('session order')
     cd(plotsdir);saveas(gcf,'P1_session.tif');    
 end
+
+
+    figure
+    hold on, set(gca,'fontsize',20)%,ylim([0.75, 1])
+    bar(nanmean(m2_evo_posterior));
+    errorbar(nanmean(m2_evo_posterior),nanstd(m2_evo_posterior)/sqrt(11),'Color','r', 'LineWidth',2)
+    ylabel ('posterior of default bonus')
+    cd(plotsdir);saveas(gcf,'m2_evo_posterior.tif');    
