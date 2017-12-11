@@ -1,13 +1,20 @@
-function param = invert_data_sdm(model_n, sub)
-% model_n = 2;
-% sub = 2;
+% function param = invert_data_sdm(model_n, sub)
+clear all
+close all
+model_n = 5;
+sub = [1:4, 6:12];
+
 
 %% Specify how to load informations needed
 [~, hostname] = system('hostname'); % try to identify which computer am I using
 if strcmp(hostname(1:5),'MBB31')
     root = 'C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\';
+    resultdir = 'C:\Users\chen.hu\Documents\GitHub\sdm\analysis\Model_comparison\sdm_results\';
+
 else
-    load(['/Users/chen/Dropbox/PHD/SDM_behavior/simulation/data/beta',num2str(beta*100),'_simudata.mat']);
+    root = '/Users/chen/Documents/GitHub/sdm/results_sdm/' ;
+    resultdir =  '/Users/chen/Documents/GitHub/sdm/analysis/Model_comparison/sdm_results/';
+
 end
 
 %% Load input data
@@ -45,8 +52,6 @@ for s = 1:N_sub
     end
     
     y = choice';
-    
-    
      u_r = [which_category, itemnum, itemid, values]';  % 360* 8, 3- 8, itemid
     % u_r = [which_category, itemnum, itemid]';  % 360* 8, 3- 8, itemid
     % X0 = myratingfile.rating_all;
@@ -204,14 +209,19 @@ for s = 1:N_sub
     
     [posteriorr,outr] = VBA_NLStateSpaceModel(y,u_r,f_name,g_name,dim,options);    
     
-    model_evidence_r(N_sub,1)= outr.F; %#ok<AGROW>
-    obs_param_all_r(N_sub,:)= posteriorr.muPhi(1:end)';
-    evo_param_all_r(N_sub,:)= posteriorr.muTheta(1:end)';
-    
+    model_evidence_r(subj,1) = outr.F; % #ok<AGROW>
+    obs_param_all_r(subj,:)= posteriorr.muPhi(1:end)';
+    evo_param_all_r(subj,:)= posteriorr.muTheta(1:end)';
+     
+    updated_x {subj} = posteriorr.muX
     posterior_all{subj} = posteriorr;
-    out_all{subj} = outr;
+    out_fit{subj} = outr.fit;
+
 end
 
-param = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r,...
-    'posterior',posterior_all,'out',out_all);
+cd(resultdir);
+params = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r, 'Rating_updated', updated_x ,'Fit_quality', out_fit);
+save (['sdm_model_fit_m_',num2str(model_n),'.mat'], 'params') 
 
+% param_all = struct('Name',[model_name,'_VBA'], 'posterior',posterior_all,'out',out_fit);
+% save (['sdm_model_fit_m_',num2str(model_n),'all.mat'], 'param_all') 

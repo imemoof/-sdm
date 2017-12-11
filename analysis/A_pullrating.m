@@ -7,6 +7,8 @@ cate_total = 1:5;
 [~, hostname] = system('hostname');
 if strcmp(hostname(1:5),'MBB31')
     resultsdir = 'C:\Users\chen.hu\Documents\GitHub\sdm\results_sdm\';
+else 
+    resultsdir = '/Users/chen/Documents/GitHub/sdm/results_sdm/';
 end
 cd(resultsdir)
 
