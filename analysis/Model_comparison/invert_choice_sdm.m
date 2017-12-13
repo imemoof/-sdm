@@ -193,6 +193,8 @@ for model_n = [9]
         % Evolution parameters        
         priors.muTheta = zeros(dim.n_theta,1);
         priors.SigmaTheta = 1e2*eye(dim.n_theta);
+        priors.a_alpha = Inf;
+        priors.b_alpha = 0;  
         
         if model_n ~= 1
             % X0 related setting 
@@ -200,8 +202,7 @@ for model_n = [9]
             priors.SigmaX0 = 1e1*zeros(dim.n);
             options.updateX0 = 0 ;
 
-            priors.a_alpha = Inf;
-            priors.b_alpha = 0;
+
             options.skipf = zeros(1,dim.n_t);
             options.skipf(1) = 1;
         end
@@ -227,7 +228,9 @@ for model_n = [9]
         model_evidence_r(subj,1) = outr.F; % #ok<AGROW>
         obs_param_all_r(subj,:)= posteriorr.muPhi(1:end)';
         evo_param_all_r(subj,:)= posteriorr.muTheta(1:end)';
-        
+        a_alpha(sub,1) = posteriorr.a_alpha;
+        b_alpha(sub,1) = posteriorr.b_alpha;
+
         updated_x {subj} = posteriorr.muX
         posterior_all{subj} = posteriorr;
         out_fit{subj} = outr.fit;
@@ -235,7 +238,7 @@ for model_n = [9]
     end
     
     cd(resultdir);
-    params = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r, 'Rating_updated', updated_x ,'Fit_quality', out_fit);
+    params = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r, 'Rating_updated', updated_x ,'Fit_quality', out_fit, 'posterior_a_alpha',a_alpha,'posterior_b_alpha',b_alpha);
     save (['sdm_model_fit_m_',num2str(model_n),'.mat'], 'params')
     
     % param_all = struct('Name',[model_name,'_VBA'], 'posterior',posterior_all,'out',out_fit);

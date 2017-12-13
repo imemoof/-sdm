@@ -1,5 +1,5 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [3]
+for model_n = [1:3]
     clearvars -except model_n
     close all
     sub = [1];
@@ -21,7 +21,7 @@ for model_n = [3]
     INDX_itemnumber = 6;
     INDX_values = 15:20;
     INDX_itemid = 21:26;
-    INDX_rt = 40;
+    INDX_conf = 41;
     N_sub = length(sub);
     N_items_percate = 86;
     N_categories = 5;
@@ -33,7 +33,7 @@ for model_n = [3]
         mydatafile = load([root,'sub',num2str(subj),filesep,'choice_subject_',num2str(subj),'cate_15.mat']);
         myratingfile = load([root,'sub',num2str(subj),filesep,'pleasantRating_subject_',num2str(subj),'_cate_15.mat']);
         Ntrials = length(mydatafile.choice_data);
-        [response_time, itemnum, which_category] = deal(NaN(Ntrials,1));
+        [confidence, itemnum, which_category] = deal(NaN(Ntrials,1));
         [values,itemid] = deal(NaN(Ntrials,6));
         
         for i = 1: Ntrials
@@ -42,10 +42,11 @@ for model_n = [3]
             itemid(i, :)=  mydatafile.choice_data(i,INDX_itemid)* which_category(i);
             
             values(i, :)= mydatafile.choice_data(i,INDX_values);  % 6 values, sometimes le last fews can be empty
-            response_time(i) = mydatafile.choice_data(i,INDX_rt);           
+            confidence(i) = mydatafile.choice_data(i,INDX_conf);           
         end
         
-        y = response_time';
+        y = confidence';
+        y(isnan(y)) = 0;  % get rid of the nan values in the middle
         u_r = [which_category, itemnum, itemid, values]';  % 360* 8, 3- 8, itemid
         % u_r = [which_category, itemnum, itemid]';  % 360* 8, 3- 8, itemid
         % X0 = myratingfile.rating_all;
@@ -53,15 +54,15 @@ for model_n = [3]
         
         
         %% Modeles ? tester :
-        models_set = {'m_h0_rt','m_default_rt','m_h0_evo_rt'};
+        models_set = {'m_h0_conf','m_default_conf','m_h0_evo_conf'};
         model_name = models_set{model_n};
         
         switch model_name
             % model 1 the null model
-            case 'm_h0_rt'   % linear model- one parameter, which is the beta
-                model_obs = @rt_obs_000;
+            case 'm_h0_conf'   % linear model- one parameter, which is the beta
+                model_obs = @conf_obs_000;
                 model_evo = [];
-                prior = [0.046, 0, 0]; %#ok<NBRAK>
+                prior = [0.046, 0];  %#ok<NBRAK>
                 param = length(prior);
                 
                 dim = struct('n',0,...  % number of hidden states
@@ -70,10 +71,10 @@ for model_n = [3]
                     'n_t',Ntrials); % number of trials
                 %        'p',1,... % total output dimension
       
-            case 'm_default_rt'
-                model_obs = @rt_obs_000_evo;
-                model_evo = @rt_evo_010;
-                prior = [0.046, 0, 0];
+            case 'm_default_conf'
+                model_obs = @conf_obs_000_evo;
+                model_evo = @conf_evo_010;
+                prior = [0.046, 0];
                 param = length(prior);
                 dim = struct('n',N_items,...  % number of hidden states
                     'n_theta',1,... % number of evolution parameters
@@ -82,10 +83,10 @@ for model_n = [3]
                 %        'p',1,... % total output dimension
                 
                   
-            case 'm_h0_evo_rt'   % linear model- one parameter, which is the beta
-                model_obs = @rt_obs_000_evo;
-                model_evo = @rt_evo_000;
-                prior = [0.046, 0, 0]; %#ok<NBRAK>
+            case 'm_h0_evo_conf'   % linear model- one parameter, which is the beta
+                model_obs = @conf_obs_000_evo;
+                model_evo = @conf_evo_000;
+                prior = [0.046, 0]; %#ok<NBRAK>
                 param = length(prior);
                 
                 dim = struct('n',N_items,...  % number of hidden states
@@ -138,7 +139,7 @@ for model_n = [3]
         options.priors = priors;
         
         %% Performing the inversion
-        options.figName = 'rt_data';
+        options.figName = 'conf_data';
         [posteriorr,outr] = VBA_NLStateSpaceModel(y,u_r,f_name,g_name,dim,options);
         
         model_evidence_r(subj,1) = outr.F; % #ok<AGROW>
@@ -154,7 +155,7 @@ for model_n = [3]
     
     cd(resultdir);
     params = struct('Name',[model_name,'_VBA'],'Val_param_obs',obs_param_all_r,'Val_param_evo',evo_param_all_r,'Priors',priors,'Rating_model_evidence',model_evidence_r, 'Rating_updated', updated_x ,'Fit_quality', out_fit, 'posterior_a_alpha',a_alpha,'posterior_b_alpha',b_alpha);
-    save (['sdm_rt_model_fit_m_',num2str(model_n),'.mat'], 'params')
+    save (['sdm_conf_model_fit_m_',num2str(model_n),'.mat'], 'params')
     
     % param_all = struct('Name',[model_name,'_VBA'], 'posterior',posterior_all,'out',out_fit);
     % save (['sdm_model_fit_m_',num2str(model_n),'all.mat'], 'param_all')
