@@ -1,5 +1,5 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [9]
+for model_n = [1,2,9]
     clearvars -except model_n
     close all
     sub = [1:4, 6:12];

@@ -1,8 +1,8 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [3]
+for model_n = [1:3]
     clearvars -except model_n
     close all
-    sub = [1];
+    sub = [1:4, 6:12];
     
     
     %% Specify how to load informations needed
