@@ -1,6 +1,6 @@
 function  [fx] = evo_010(x,P,u,in)
 
-    alpha = abs(P(1));
+    alpha = P(1);
     ID_items = u(3:8);
     ID_items =(ID_items(~isnan(ID_items)));
     v_zero = x(ID_items);

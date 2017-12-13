@@ -1,7 +1,7 @@
 function  [fx] = evo_111(x,P,u,in)
 
     bonus_primacy = P(1);
-    alpha = abs(P(2));
+    alpha = P(2);
     bonus_recency = P(3);
     
     ID_items = u(3:8);

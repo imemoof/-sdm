@@ -1,7 +1,7 @@
 function  [fx] = evo_011(x,P,u,in)
 
     bonus_recency = P(1);
-    alpha = abs(P(2));
+    alpha = P(2);
     
     ID_items = u(3:8);
     ID_items =(ID_items(~isnan(ID_items)));
