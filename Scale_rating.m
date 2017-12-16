@@ -33,7 +33,7 @@ while isvalidate == 0;
             if FoodorConf == 1,
                 Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);
                 Screen('TextSize', window, displayConfig.text.mediumfont);
-                DrawFormattedText(window,['Combien aimez-vous cet aliment?'],'center', displayConfig.yCenter +  100, surface);
+                DrawFormattedText(window,['Combien aimez-vous cette item?'],'center', displayConfig.yCenter +  100, surface);
             elseif FoodorConf == 0,
                 Screen('TextSize', window, displayConfig.text.mediumfont);
                 DrawFormattedText(window,['Etes-vous sur(e) de votre choix?'],'center', displayConfig.yCenter - 200, surface); 
@@ -88,7 +88,7 @@ while isvalidate == 0;
             if FoodorConf == 1,
                 Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);
                 Screen('TextSize', window, displayConfig.text.mediumfont);
-                DrawFormattedText(window,['Combien aimez-vous cet aliment?'],'center', displayConfig.yCenter +  100, surface);
+                DrawFormattedText(window,['Combien aimez-vous cette item?'],'center', displayConfig.yCenter +  100, surface);
             elseif FoodorConf == 0,
                 Screen('TextSize', window, displayConfig.text.mediumfont);
                 DrawFormattedText(window,['Etes-vous sur(e) de votre choix?'],'center', displayConfig.yCenter - 200, surface); 
@@ -144,7 +144,7 @@ while isvalidate == 0;
             if FoodorConf == 1,
                 Screen('DrawTexture', window, ItemTexture, [], positionItem, 0);
                 Screen('TextSize', window, displayConfig.text.mediumfont);
-                DrawFormattedText(window,['Combien aimez-vous cet aliment?'],'center', displayConfig.yCenter +  100, surface);
+                DrawFormattedText(window,['Combien aimez-vous cette item?'],'center', displayConfig.yCenter +  100, surface);
             elseif FoodorConf == 0,
                 Screen('TextSize', window, displayConfig.text.mediumfont);
                 DrawFormattedText(window,['Etes-vous sur(e) de votre choix?'],'center', displayConfig.yCenter - 200, surface); 
