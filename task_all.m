@@ -1,4 +1,4 @@
- o% Rating task for different items
+ % Rating task for different items
     clear all;  
     rand('state',sum(100*clock));
 
@@ -9,7 +9,7 @@
     if practice_or_not == 0
         do_rating_task = input('will there be a rating session?');
         do_choice_task = input('will there be a choice session?');
-        total_categories = [2,3,5];
+        total_categories = [1:5];
 %         total_categories = [4];
         category_order = total_categories(randperm(length(total_categories)));
         repeat_per_category = 4;
