@@ -1,8 +1,8 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [1:3]
+for model_n = [4]
     clearvars -except model_n
     close all
-    sub = [1:4, 6:12];
+    sub = [1:18, 20:24];
     
     
     %% Specify how to load informations needed
@@ -46,6 +46,7 @@ for model_n = [1:3]
         end
         
         y = response_time';
+        y(isnan(y)) = 0;  % get rid of the nan values in the middle
         u_r = [which_category, itemnum, itemid, values]';  % 360* 8, 3- 8, itemid
         % u_r = [which_category, itemnum, itemid]';  % 360* 8, 3- 8, itemid
         % X0 = myratingfile.rating_all;
@@ -53,7 +54,7 @@ for model_n = [1:3]
         
         
         %% Modeles ? tester :
-        models_set = {'m_h0_rt','m_default_rt','m_h0_evo_rt'};
+        models_set = {'m_h0_rt','m_default_rt','m_h0_evo_rt','m_default_rt_beta'};
         model_name = models_set{model_n};
         
         switch model_name
@@ -93,6 +94,29 @@ for model_n = [1:3]
                     'n_phi', param,... % number of observation parameters
                     'n_t',Ntrials); % number of trials
                 %        'p',1,... % total output dimension
+                
+                       
+%             case 'm_default_rt_beta_pairwise'   % old model 4
+%                 model_obs = @rt_obs_000_evo_pairwise;
+%                 model_evo = @rt_evo_010_beta;
+%                 prior = [0.046, 0,0];
+%                 param = length(prior);
+%                 dim = struct('n',N_items,...  % number of hidden states
+%                     'n_theta',2,... % number of evolution parameters
+%                     'n_phi', param,... % number of observation parameters
+%                     'n_t',Ntrials); % number of trials
+%                 %        'p',1,... % total output dimension   
+
+            case 'm_default_rt_beta'   
+                model_obs = @rt_obs_000_evo;
+                model_evo = @rt_evo_010_beta;
+                prior = [0.046, 0, 0];
+                param = length(prior);
+                dim = struct('n',N_items,...  % number of hidden states
+                    'n_theta',2,... % number of evolution parameters
+                    'n_phi', param,... % number of observation parameters
+                    'n_t',Ntrials); % number of trials
+                %        'p',1,... % total output dimension                   
         end
         
         

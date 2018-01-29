@@ -1,5 +1,5 @@
 clear all
-subid = [1:4,6:12];
+subid = [1:18,20:24];
 % trial_number = 72;
 plotwidth = 2;
  [~, hostname] = system('hostname')
@@ -141,7 +141,7 @@ for cate_number = cate_total;
     for k = 1:length(subid)
            b = glmfit([1:3], m_h0_3_1_rt(k,:), 'normal' );  beta_rt(1,k) = b(2);
            b = glmfit([1:3], m_h0_3_1_choice(k,:), 'normal');  beta_choice(1,k) = b(2);
-          b = glmfit([1:3], m_h0_3_1_conf(k,:), 'normal');  beta_conf(1,k) = b(2);
+           b = glmfit([1:3], m_h0_3_1_conf(k,:), 'normal');  beta_conf(1,k) = b(2);
 
            b = glmfit([1:4], m_h0_4_1_rt(k,:), 'normal'); beta_rt(2,k) = b(2);
            b = glmfit([1:4], m_h0_4_1_choice(k,:), 'normal');  beta_choice(2,k) = b(2);

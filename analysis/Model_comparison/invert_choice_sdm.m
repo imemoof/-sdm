@@ -1,9 +1,8 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [1,2,9]
+for model_n = [10]
     clearvars -except model_n
     close all
-    sub = [1:4, 6:12];
-    
+    sub = [1:18, 20:24];
     
     %% Specify how to load informations needed
     [~, hostname] = system('hostname'); % try to identify which computer am I using
@@ -59,7 +58,7 @@ for model_n = [1,2,9]
         
         
         %% Modeles ? tester :
-        models_set = {'m_h0','m_default','m_primacy','m_recency','m_primacy_default', 'm_default_recency','m_primacy_recency','m_primacy_default_recency','m_h0_evo'};
+        models_set = {'m_h0','m_default','m_primacy','m_recency','m_primacy_default', 'm_default_recency','m_primacy_recency','m_primacy_default_recency','m_h0_evo','m_default_beta'};
         model_name = models_set{model_n};
         
         switch model_name
@@ -77,8 +76,6 @@ for model_n = [1,2,9]
                 %        'p',1,... % total output dimension
 
 
-
-               
             case 'm_default'
                 model_obs = @obs_000_evo;
                 model_evo = @evo_010;
@@ -166,6 +163,28 @@ for model_n = [1,2,9]
                 
                 dim = struct('n',N_items,...  % number of hidden states
                     'n_theta',0,... % number of evolution parameters
+                    'n_phi', param,... % number of observation parameters
+                    'n_t',Ntrials); % number of trials
+                %        'p',1,... % total output dimension
+                
+%             case 'm_default_beta_pairwise' % old model 10
+%                 model_obs = @obs_000_evo_pairwise;
+%                 model_evo = @evo_010_beta;
+%                 prior = [0.046];
+%                 param = length(prior);
+%                 dim = struct('n',N_items,...  % number of hidden states
+%                     'n_theta',2,... % number of evolution parameters
+%                     'n_phi', param,... % number of observation parameters
+%                     'n_t',Ntrials); % number of trials
+%                 %        'p',1,... % total output dimension  
+                
+            case 'm_default_beta' % old model 10
+                model_obs = @obs_000_evo;
+                model_evo = @evo_010_beta;
+                prior = [0.046];
+                param = length(prior);
+                dim = struct('n',N_items,...  % number of hidden states
+                    'n_theta',2,... % number of evolution parameters
                     'n_phi', param,... % number of observation parameters
                     'n_t',Ntrials); % number of trials
                 %        'p',1,... % total output dimension

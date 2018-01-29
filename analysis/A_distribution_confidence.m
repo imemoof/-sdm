@@ -1,5 +1,5 @@
 clear all
-total_subject = [1:4,6:12];
+total_subject =  [1:18,20:24];
 trial_number = 72;
 
  [~, hostname] = system('hostname')

@@ -1,8 +1,8 @@
 % function param = invert_data_sdm(model_n, sub)
-for model_n = [1:3]
+for model_n = [4]
     clearvars -except model_n
     close all
-    sub = [1:4, 6:12];
+    sub = [1:18, 20:24];
     
     
     %% Specify how to load informations needed
@@ -54,7 +54,7 @@ for model_n = [1:3]
         
         
         %% Modeles ? tester :
-        models_set = {'m_h0_conf','m_default_conf','m_h0_evo_conf'};
+        models_set = {'m_h0_conf','m_default_conf','m_h0_evo_conf','m_default_conf_beta'};
         model_name = models_set{model_n};
         
         switch model_name
@@ -94,6 +94,30 @@ for model_n = [1:3]
                     'n_phi', param,... % number of observation parameters
                     'n_t',Ntrials); % number of trials
                 %        'p',1,... % total output dimension
+                
+%             case 'm_default_conf_beta_pairwise'   % old model 4
+%                 model_obs = @conf_obs_000_evo_pairwise;
+%                 model_evo = @conf_evo_010_beta;
+%                 prior = [0.046, 0];
+%                 param = length(prior);
+%                 dim = struct('n',N_items,...  % number of hidden states
+%                     'n_theta',2,... % number of evolution parameters
+%                     'n_phi', param,... % number of observation parameters
+%                     'n_t',Ntrials); % number of trials
+%                 %        'p',1,... % total output dimension    
+
+            case 'm_default_conf_beta'
+                model_obs = @conf_obs_000_evo;
+                model_evo = @conf_evo_010_beta;
+                prior = [0.046, 0];
+                param = length(prior);
+                dim = struct('n',N_items,...  % number of hidden states
+                    'n_theta',2,... % number of evolution parameters
+                    'n_phi', param,... % number of observation parameters
+                    'n_t',Ntrials); % number of trials
+                %        'p',1,... % total output dimension                 
+                
+                
         end
         
         
